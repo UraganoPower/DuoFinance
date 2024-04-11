@@ -1,6 +1,7 @@
 package com.wiley.DuoFinance.service;
 
 import com.wiley.DuoFinance.dao.UserDao;
+import com.wiley.DuoFinance.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ public class UserServiceImpl implements UserService {
     UserDao userDao;
 
     @Override
-    public String addUser(String user) {
-        userDao.addUser(user);
+    public User addBasicUser(User user) {
+        return userDao.addBasicUser(user);
     }
 }

@@ -1,6 +1,8 @@
 package com.wiley.DuoFinance.dao;
 
+import com.wiley.DuoFinance.model.User;
+
 public interface UserDao {
 
-    String addUser(String user);
+    User addBasicUser(User user);
 }

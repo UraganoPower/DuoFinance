@@ -1,7 +1,9 @@
 package com.wiley.DuoFinance.service;
 
 
+import com.wiley.DuoFinance.model.User;
+
 public interface UserService {
 
-    String addUser(String user);
+    User addBasicUser(User user);
 }
