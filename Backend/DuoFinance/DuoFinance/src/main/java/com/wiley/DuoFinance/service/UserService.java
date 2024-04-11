@@ -6,4 +6,5 @@ import com.wiley.DuoFinance.model.User;
 public interface UserService {
 
     User addBasicUser(User user);
+    boolean isEmailAvailable(String email);
 }

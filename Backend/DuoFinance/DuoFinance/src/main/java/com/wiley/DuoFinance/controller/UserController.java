@@ -2,6 +2,7 @@ package com.wiley.DuoFinance.controller;
 
 import com.wiley.DuoFinance.model.User;
 import com.wiley.DuoFinance.service.UserService;
+import com.wiley.DuoFinance.util.JsonGenerator;
 import com.wiley.DuoFinance.validation.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,13 @@ public class UserController {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body(errors);
+        }
+
+        if(!userService.isEmailAvailable(basicUser.getEmail())) {
+
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(JsonGenerator.formatSingleError("email", "The email already taken"));
         }
 
         newBasicUser = userService.addBasicUser(basicUser);
