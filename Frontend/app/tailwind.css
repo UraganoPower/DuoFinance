@@ -1,3 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: "Europa";
+    src: url("./fonts/Europa-Bold.ttf");
+  }
+
+  @font-face {
+    font-family: "Eurostyle";
+    src: url("./fonts/Eurostyle.ttf");
+  }
+}
+
+@font-face {
+  font-family: "Europa";
+  src: url("./fonts/Europa-Bold.ttf");
+}
+
+@font-face {
+  font-family: "Eurostyle";
+  src: url(./fonts/eurostile.TTF);
+}
+
+.europa {
+  font-family: "Europa", sans-serif;
+}
+
+.eurostyle {
+  font-family: "Eurostyle", sans-serif;
+}

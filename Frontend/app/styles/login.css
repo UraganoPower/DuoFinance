@@ -1,0 +1,63 @@
+.land-img {
+  background-image: url("/public/image/landScapeLog.png");
+  background-position: bottom right;
+}
+
+.wrapper-log {
+  /* display */
+  @apply flex flex-col justify-start;
+
+  /* perimeters */
+  @apply pt-[82px] pl-[90px];
+}
+
+.title-log {
+  /* text */
+  @apply text-[100px] tracking-[-8px] select-none;
+
+  /* margin */
+  @apply leading-[55px];
+}
+
+.title-log-msg {
+  /* text */
+  @apply text-[70px] tracking-[-5px] select-none;
+
+  /* color */
+  @apply text-secondary;
+
+  /* margin */
+  @apply leading-[55px] mt-[24px];
+}
+
+.input-log-wrapper {
+  /* display */
+  @apply flex flex-col;
+
+  /* perimeters */
+  @apply mb-[40px] w-[530px];
+}
+
+.input-log-label {
+  /* text */
+  @apply text-[25px];
+
+  /* perimeters */
+  @apply mb-[15px] ml-[8px];
+}
+
+.input-log {
+  /* border */
+  @apply border-[1px] border-gray-300 rounded-[10px];
+
+  /* perimeters */
+  @apply p-2 h-[60px];
+}
+
+.link-to {
+  /* color */
+  @apply text-accent;
+
+  /* text */
+  @apply underline;
+}
