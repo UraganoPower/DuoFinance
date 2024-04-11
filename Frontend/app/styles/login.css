@@ -35,7 +35,7 @@
   @apply flex flex-col;
 
   /* perimeters */
-  @apply mb-[40px] w-[530px];
+  @apply mb-[20px] w-[530px];
 }
 
 .input-log-label {
@@ -48,10 +48,20 @@
 
 .input-log {
   /* border */
-  @apply border-[1px] border-gray-300 rounded-[10px];
+  @apply border-[1px] border-gray-300 rounded-[10px] outline-none;
 
   /* perimeters */
   @apply p-2 h-[60px];
+}
+
+.input-log:hover {
+  /* border */
+  @apply border-[1px] border-gray-500;
+}
+
+.input-log:focus {
+  /* border */
+  @apply border-[2px] border-secondary;
 }
 
 .link-to {
@@ -60,4 +70,64 @@
 
   /* text */
   @apply underline;
+
+  transition: 0.2s;
+}
+
+.link-to:hover {
+  /* color */
+
+  @apply text-secondary;
+}
+
+.link-to-login {
+  @apply flex justify-center items-center  text-accent;
+
+  /* border */
+
+  transition: 0.2s;
+}
+
+.log-button {
+  /* display */
+  @apply flex justify-center items-center;
+
+  /* bg */
+  @apply bg-primary;
+
+  /* color */
+  @apply text-white;
+
+  /* perimeters */
+  @apply px-[20px] py-[10px];
+
+  /* border */
+  @apply rounded-[5px];
+
+  transition: 0.3s;
+}
+
+.log-button:hover {
+  /* bg */
+  @apply bg-blue-700;
+
+  @apply shadow-md;
+}
+
+.log-button:active {
+  @apply shadow-none;
+
+  transform: translateX(-3px);
+}
+
+.github {
+  @apply absolute bottom-[30px] right-[40px] flex flex-col items-end text-[15px];
+}
+
+.github-link {
+  transition: 0.2s;
+}
+
+.github-link:hover {
+  @apply text-accent;
 }
