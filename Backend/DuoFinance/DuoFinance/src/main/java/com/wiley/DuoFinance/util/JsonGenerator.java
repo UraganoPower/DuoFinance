@@ -1,5 +1,7 @@
 package com.wiley.DuoFinance.util;
 
+import com.wiley.DuoFinance.model.User;
+
 import java.util.HashMap;
 import java.util.Map;
 

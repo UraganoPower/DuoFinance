@@ -1,6 +1,7 @@
 package com.wiley.DuoFinance.controller;
 
 import com.wiley.DuoFinance.model.User;
+import com.wiley.DuoFinance.security.CryptKeeper;
 import com.wiley.DuoFinance.service.UserService;
 import com.wiley.DuoFinance.util.JsonGenerator;
 import com.wiley.DuoFinance.validation.UserValidator;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.wiley.DuoFinance.security.CryptKeeper.decrypt;
+
 @RestController
 @RequestMapping("/api")
 @CrossOrigin
@@ -21,9 +24,10 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/basic-user")
-    public ResponseEntity<?> addBasicUser(@RequestBody User basicUser) {
+    public ResponseEntity<?> addBasicUser(@RequestBody User basicUser) throws Exception {
 
         User newBasicUser;
+        String userIdHash;
 
         if(!UserValidator.isValidUser(basicUser)) {
 
@@ -44,10 +48,13 @@ public class UserController {
         }
 
         newBasicUser = userService.addBasicUser(basicUser);
+        userIdHash = CryptKeeper.encrypt(String.valueOf(newBasicUser.getUserId()));
+        newBasicUser.setUserId(null);
+        newBasicUser.setPassword(null);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .header("userId", String.valueOf(basicUser.getUserId()))
+                .header("userIdHash", userIdHash)
                 .body(newBasicUser);
     }
 }
