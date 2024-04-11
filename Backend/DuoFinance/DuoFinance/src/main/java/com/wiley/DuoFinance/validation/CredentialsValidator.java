@@ -1,23 +1,21 @@
 package com.wiley.DuoFinance.validation;
 
-import com.wiley.DuoFinance.model.User;
+import com.wiley.DuoFinance.model.Credentials;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-public class UserValidator {
+public class CredentialsValidator {
 
-    private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@(.+)$";
     private static Map<String, String> errors;
 
-    public static boolean isValidUser(User user) {
+    public static boolean isValidCredentials(Credentials credentials) {
 
         errors = new HashMap<>();
 
-        validateUsername(user.getUsername());
-        validateEmail(user.getEmail());
-        validatePassword(user.getPassword());
+        validateEmail(credentials.getEmail());
+        validatePassword(credentials.getPassword());
 
         return errors.size() == 0;
     }
@@ -26,30 +24,12 @@ public class UserValidator {
         return errors;
     }
 
-    private static void validateUsername(String username) {
-
-        boolean isValid = true;
-        String message = "The username must be between 5 and 100 characters.";
-
-        if(username == null) {
-            isValid = false;
-        } else {
-            if(username.isBlank()) isValid = false;
-            if(username.isEmpty()) isValid = false;
-            if(username.length() < 5 || username.length() > 100) isValid = false;
-        }
-
-        if(!isValid) {
-            errors.put("username", message);
-        }
-    }
-
     private static void validateEmail(String email) {
 
         boolean isValid = true;
         String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
         Pattern pattern = Pattern.compile(emailRegex);
-        String message = "The email must be valid and between 5 and 100 characters.";
+        String message = "An email must be provided.";
 
         if(email == null) {
             isValid = false;
@@ -68,7 +48,7 @@ public class UserValidator {
     private static void validatePassword(String password) {
 
         boolean isValid = true;
-        String message = "The password must be between 5 and 100 characters.";
+        String message = "A password must be provided.";
 
         if(password == null) {
             isValid = false;
@@ -82,5 +62,4 @@ public class UserValidator {
             errors.put("password", message);
         }
     }
-
 }
