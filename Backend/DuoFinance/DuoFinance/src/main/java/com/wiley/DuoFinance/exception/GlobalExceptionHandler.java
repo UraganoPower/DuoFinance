@@ -5,6 +5,7 @@ import com.wiley.DuoFinance.util.JsonGenerator;
 import com.wiley.DuoFinance.validation.UserValidator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -34,4 +35,11 @@ public class GlobalExceptionHandler {
                 .body(JsonGenerator.formatSingleError("email", "The email already taken"));
     }
 
+    @ExceptionHandler(MissingRequestHeaderException.class)
+    public ResponseEntity<?> handleMissingRequestHeaderException(MissingRequestHeaderException ex) {
+
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(JsonGenerator.formatSingleError("login", "You need to login in."));
+    }
 }

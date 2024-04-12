@@ -10,4 +10,8 @@ public interface UserService {
     int addUser(User user);
     boolean isEmailAvailable(String email);
     void validateUser(User user) throws InvalidUserException, EmailAlreadyTakenException;
+
+    User getUserById(int userId);
+
+    int decryptUserId(String userIdHash);
 }

@@ -1,8 +1,10 @@
 package com.wiley.DuoFinance.dao;
 
+import com.wiley.DuoFinance.mapper.UserMapper;
 import com.wiley.DuoFinance.model.Role;
 import com.wiley.DuoFinance.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -51,5 +53,25 @@ public class UserMySqlDao implements UserDao {
         String query = "select not exists(select * from user where email = ?)";
 
         return jdbcTemplate.queryForObject(query, Boolean.class, email);
+    }
+
+    @Override
+    public User getUserById(int userId) {
+
+        User user;
+
+        String query = """
+                select *
+                from user
+                where userId = ?;
+                """;
+
+        try {
+            user = jdbcTemplate.queryForObject(query, new UserMapper(), userId);
+        } catch(EmptyResultDataAccessException ex) {
+            user = null;
+        }
+
+        return user;
     }
 }

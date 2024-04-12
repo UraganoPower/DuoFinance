@@ -17,19 +17,19 @@ public class UserController {
     UserService userService;
 
     @GetMapping("/user")
-    public User getUser(@RequestHeader("userIdHash") String userIdHash) {
+    public ResponseEntity<?> getUser(@RequestHeader(name = "userIdHash", required = true) String userIdHash) throws Exception {
 
-        User user = new User();
+        int userId;
+        User user;
 
-        //String userIdHash =
+        userId = Integer.parseInt(HashUtility.decrypt(userIdHash));
 
-        System.out.println("!!!!!!!!!!!!!! " + userIdHash);
+        user = userService.getUserById(userId);
 
-
-        //userService.getUserById(userId);
-
-        return user;
-
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .header("userIdHash", userIdHash)
+                .body(user);
     }
 
     @PostMapping("/user")

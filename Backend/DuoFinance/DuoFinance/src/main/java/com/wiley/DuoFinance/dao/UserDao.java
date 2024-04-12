@@ -7,4 +7,6 @@ public interface UserDao {
     int addUser(User user);
 
     boolean isEmailAvailable(String email);
+
+    User getUserById(int userId);
 }
