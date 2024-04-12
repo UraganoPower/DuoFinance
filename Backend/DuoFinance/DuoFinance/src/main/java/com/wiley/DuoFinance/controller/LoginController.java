@@ -3,11 +3,10 @@ package com.wiley.DuoFinance.controller;
 import com.wiley.DuoFinance.exception.InvalidCredentialsException;
 import com.wiley.DuoFinance.model.Credentials;
 import com.wiley.DuoFinance.model.User;
-import com.wiley.DuoFinance.security.CryptKeeper;
+import com.wiley.DuoFinance.security.HashUtility;
 import com.wiley.DuoFinance.service.LoginService;
 import com.wiley.DuoFinance.util.JsonGenerator;
 import com.wiley.DuoFinance.validation.CredentialsValidator;
-import com.wiley.DuoFinance.validation.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +42,7 @@ public class LoginController {
 
         try {
             user = loginService.login(credentials);
-            userIdHash = CryptKeeper.encrypt(String.valueOf(user.getUserId()));
+            userIdHash = HashUtility.encrypt(String.valueOf(user.getUserId()));
             user.setUserId(null);
             user.setPassword(null);
 
