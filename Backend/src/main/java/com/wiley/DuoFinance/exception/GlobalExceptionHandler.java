@@ -3,6 +3,7 @@ package com.wiley.DuoFinance.exception;
 
 import com.wiley.DuoFinance.util.JsonGenerator;
 import com.wiley.DuoFinance.validation.CredentialsValidator;
+import com.wiley.DuoFinance.validation.QuestionValidator;
 import com.wiley.DuoFinance.validation.UserValidator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -66,5 +67,17 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
                 .body(JsonGenerator.formatSingleError("role", "You must be login as an ADMIN user."));
+    }
+
+    @ExceptionHandler(InvalidQuestionException.class)
+    public ResponseEntity<?> handleInvalidQuestionException(InvalidQuestionException ex) {
+
+        Map<String, Object> errors = new HashMap<>();
+
+        errors.put("errors", QuestionValidator.getErrors());
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(errors);
     }
 }

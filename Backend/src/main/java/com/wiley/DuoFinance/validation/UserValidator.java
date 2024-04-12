@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 
 public class UserValidator {
 
-    private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@(.+)$";
     private static Map<String, String> errors;
 
     public static boolean isValidUser(User user) {
