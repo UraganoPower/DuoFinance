@@ -11,13 +11,6 @@ export default {
         secondary: "#FF6F8D",
         accent: "#FF9437",
       },
-      backgroundImage: {
-        land: "url('/public/image/landScapeLog.png')",
-      },
-      fontFamily: {
-        europa: ["Europa", "sans-serif"],
-        eurostyle: ["Eurostyle", "sans-serif"],
-      },
     },
   },
   plugins: [],

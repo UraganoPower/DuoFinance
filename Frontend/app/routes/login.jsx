@@ -1,9 +1,8 @@
-import type { LinksFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
-import style from "~/styles/login.css?url";
-import ArrowSvg from "~/svg/arrowSvg.jsx";
+import style from "~/styles/login.css";
+import ArrowSvg from "~/svg/arrowSvg";
 
-export const links: LinksFunction = () => [{ rel: "stylesheet", href: style }];
+export const links = () => [{ rel: "stylesheet", href: style }];
 
 const LogIn = () => {
   return (

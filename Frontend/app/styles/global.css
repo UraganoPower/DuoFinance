@@ -1,0 +1,17 @@
+@font-face {
+  font-family: "Europa";
+  src: url("../fonts/Europa-Bold.ttf");
+}
+
+@font-face {
+  font-family: "Eurostyle";
+  src: url("../fonts/eurostile.ttf");
+}
+
+.europa {
+  font-family: "Europa", sans-serif;
+}
+
+.eurostyle {
+  font-family: "Eurostyle", sans-serif;
+}
