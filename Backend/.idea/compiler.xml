@@ -9,9 +9,6 @@
         <module name="DuoFinance" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="DuoFinance" target="17" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
