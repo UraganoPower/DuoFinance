@@ -1,6 +1,5 @@
 package com.wiley.DuoFinance.dao;
 
-import com.wiley.DuoFinance.exception.InvalidCredentialsException;
 import com.wiley.DuoFinance.mapper.UserMapper;
 import com.wiley.DuoFinance.model.Credentials;
 import com.wiley.DuoFinance.model.User;
@@ -16,7 +15,7 @@ public class LoginMySqlDao implements LoginDao {
     JdbcTemplate jdbcTemplate;
 
     @Override
-    public User login(Credentials credentials) throws InvalidCredentialsException {
+    public User login(Credentials credentials) {
 
         User user;
 
@@ -25,10 +24,26 @@ public class LoginMySqlDao implements LoginDao {
         try {
             user = jdbcTemplate.queryForObject(query, new UserMapper(), credentials.getEmail(), credentials.getPassword());
         } catch(EmptyResultDataAccessException ex) {
-            throw new InvalidCredentialsException();
+            user = null;
         }
 
         return user;
     }
 
+    @Override
+    public boolean confirmBasicStatus(int userId) {
+
+        String query = "select exists (select * from user join role on user.roleId = role.roleId where user.userId = ? and role.roleId = ?)";
+
+
+        return jdbcTemplate.queryForObject(query, Boolean.class, userId, 2);
+    }
+
+    @Override
+    public boolean confirmAdminStatus(int userId) {
+
+        String query = "select exists (select * from user join role on user.roleId = role.roleId where user.userId = ? and role.roleId = ?)";
+
+        return jdbcTemplate.queryForObject(query, Boolean.class, userId, 1);
+    }
 }

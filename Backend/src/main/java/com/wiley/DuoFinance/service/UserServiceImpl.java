@@ -1,6 +1,7 @@
 package com.wiley.DuoFinance.service;
 
 import com.wiley.DuoFinance.dao.UserDao;
+import com.wiley.DuoFinance.exception.CannotLoginException;
 import com.wiley.DuoFinance.exception.EmailAlreadyTakenException;
 import com.wiley.DuoFinance.exception.InvalidUserException;
 import com.wiley.DuoFinance.model.User;
@@ -39,17 +40,40 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(int userId) {
-        return userDao.getUserById(userId);
+    public User getUserById(int userId) throws CannotLoginException {
+
+        User user;
+
+        user = userDao.getUserById(userId);
+
+        if(user == null) {
+            throw new CannotLoginException();
+        }
+
+        return user;
     }
 
     @Override
-    public int decryptUserId(String userIdHash) {
+    public String encryptUserId(int userId) throws Exception {
+
+        String userIdHash;
+
+        userIdHash = HashUtility.encrypt(String.valueOf(userId));
+
+        return userIdHash;
+    }
+
+    @Override
+    public int decryptUserId(String userIdHash) throws CannotLoginException {
 
         int userId;
 
-        //userId = Integer.parseInt(HashUtility.decrypt(userIdHash));
+        try {
+            userId = Integer.parseInt(HashUtility.decrypt(userIdHash));
+        } catch (Exception e) {
+            throw new CannotLoginException();
+        }
 
-        return 0;
+        return userId;
     }
 }

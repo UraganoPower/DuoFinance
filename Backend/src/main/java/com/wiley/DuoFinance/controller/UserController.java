@@ -22,9 +22,9 @@ public class UserController {
         int userId;
         User user;
 
-        userId = Integer.parseInt(HashUtility.decrypt(userIdHash));
-
+        userId = userService.decryptUserId(userIdHash);
         user = userService.getUserById(userId);
+        user.setUserId(null);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -40,8 +40,7 @@ public class UserController {
 
         userService.validateUser(user);
         userId = userService.addUser(user);
-
-        userIdHash = HashUtility.encrypt(String.valueOf(userId));
+        userIdHash = userService.encryptUserId(userId);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
