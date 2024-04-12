@@ -31,7 +31,7 @@ public class UserMySqlDao implements UserDao {
             ps = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 
             ps.setString(1, basicUser.getUsername());
-            ps.setString(2, basicUser.getEmail());
+            ps.setString(2, basicUser.getEmail().toLowerCase());
             ps.setString(3, basicUser.getPassword());
             ps.setInt(4, Role.BASIC);
 
@@ -43,5 +43,13 @@ public class UserMySqlDao implements UserDao {
         basicUser.setRoleId(Role.BASIC);
 
         return basicUser;
+    }
+
+    @Override
+    public boolean isEmailAvailable(String email) {
+
+        String query = "select not exists(select * from user where email = ?)";
+
+        return jdbcTemplate.queryForObject(query, Boolean.class, email);
     }
 }

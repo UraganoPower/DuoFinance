@@ -15,4 +15,9 @@ public class UserServiceImpl implements UserService {
     public User addBasicUser(User user) {
         return userDao.addBasicUser(user);
     }
+
+    @Override
+    public boolean isEmailAvailable(String email) {
+        return userDao.isEmailAvailable(email);
+    }
 }

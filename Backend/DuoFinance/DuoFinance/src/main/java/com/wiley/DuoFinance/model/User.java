@@ -2,7 +2,7 @@ package com.wiley.DuoFinance.model;
 
 public class User {
 
-    private int userId;
+    private Integer userId;
     private String username;
     private String email;
     private String password;
@@ -12,7 +12,7 @@ public class User {
 
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
@@ -32,7 +32,7 @@ public class User {
         return roleId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
