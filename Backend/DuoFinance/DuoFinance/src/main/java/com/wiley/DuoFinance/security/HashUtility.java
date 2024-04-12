@@ -4,7 +4,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 
-public class CryptKeeper {
+public class HashUtility {
 
     private static final String ALGORITHM = "AES";
     private static String key = "MySecretKey12345";

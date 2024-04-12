@@ -4,7 +4,7 @@ import com.wiley.DuoFinance.model.User;
 
 public interface UserDao {
 
-    User addBasicUser(User user);
+    int addUser(User user);
 
     boolean isEmailAvailable(String email);
 }

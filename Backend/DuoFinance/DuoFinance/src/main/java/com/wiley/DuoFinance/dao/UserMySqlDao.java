@@ -18,8 +18,9 @@ public class UserMySqlDao implements UserDao {
     JdbcTemplate jdbcTemplate;
 
     @Override
-    public User addBasicUser(User basicUser) {
+    public int addUser(User user) {
 
+        int userId;
         KeyHolder keyHolder = new GeneratedKeyHolder();
         String query =
                 "insert into user (username, email, password, roleId) " +
@@ -30,19 +31,18 @@ public class UserMySqlDao implements UserDao {
             PreparedStatement ps = null;
             ps = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
 
-            ps.setString(1, basicUser.getUsername());
-            ps.setString(2, basicUser.getEmail().toLowerCase());
-            ps.setString(3, basicUser.getPassword());
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getEmail().toLowerCase());
+            ps.setString(3, user.getPassword());
             ps.setInt(4, Role.BASIC);
 
             return ps;
 
         }, keyHolder);
 
-        basicUser.setUserId(keyHolder.getKey().intValue());
-        basicUser.setRoleId(Role.BASIC);
+        userId = keyHolder.getKey().intValue();
 
-        return basicUser;
+        return userId;
     }
 
     @Override
