@@ -32,7 +32,7 @@
 
 .input-log-wrapper {
   /* display */
-  @apply flex flex-col;
+  @apply flex flex-col relative;
 
   /* perimeters */
   @apply mb-[20px] w-[530px];
@@ -62,6 +62,10 @@
 .input-log:focus {
   /* border */
   @apply border-[2px] border-secondary;
+}
+
+.input-error {
+  @apply absolute bottom-[-22px] right-0 text-[14px]  text-red-500 select-none;
 }
 
 .link-to {

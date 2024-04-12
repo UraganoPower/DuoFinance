@@ -9,6 +9,7 @@ import com.wiley.DuoFinance.util.JsonGenerator;
 import com.wiley.DuoFinance.validation.CredentialsValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +18,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.POST}, allowCredentials = "true")
 public class LoginController {
 
     @Autowired
@@ -37,6 +38,7 @@ public class LoginController {
 
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
+                    .contentType(MediaType.APPLICATION_JSON)
                     .body(errors);
         }
 
