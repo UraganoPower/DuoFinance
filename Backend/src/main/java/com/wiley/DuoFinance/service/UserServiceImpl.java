@@ -76,4 +76,9 @@ public class UserServiceImpl implements UserService {
 
         return userId;
     }
+
+    @Override
+    public void deleteUserById(int userId) {
+        userDao.deleteUserById(userId);
+    }
 }
