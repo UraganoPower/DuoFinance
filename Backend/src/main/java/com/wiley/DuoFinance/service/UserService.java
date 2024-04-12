@@ -17,4 +17,6 @@ public interface UserService {
     int decryptUserId(String userIdHash) throws CannotLoginException;
 
     String encryptUserId(int userId) throws Exception;
+
+    void deleteUserById(int userId);
 }

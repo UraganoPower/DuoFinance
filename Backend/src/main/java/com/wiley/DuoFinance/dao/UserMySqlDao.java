@@ -74,4 +74,12 @@ public class UserMySqlDao implements UserDao {
 
         return user;
     }
+
+    @Override
+    public void deleteUserById(int userId) {
+
+        String query = "delete from user where userId = ?";
+
+        jdbcTemplate.update(query, userId);
+    }
 }
