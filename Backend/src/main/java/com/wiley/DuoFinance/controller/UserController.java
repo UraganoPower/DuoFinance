@@ -35,8 +35,7 @@ public class UserController {
         }
 
         //get the user
-        userId = userService.decryptUserId(userId);
-        user = userService.getUserById(userId);
+        user = userService.getUserById(Integer.parseInt(userId));
         user.setUserId(null);
 
         //return the user

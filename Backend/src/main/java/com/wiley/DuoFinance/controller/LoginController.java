@@ -39,11 +39,14 @@ public class LoginController {
         String userHash;
 
         user = loginService.login(credentials);
-        userIdHash = userService.encryptUserId(user.getUserId());
+        userHash = userService.encryptUserId(user.getUserId());
+
+        Cookie sessionCookie = Session.add(userHash, user.getUserId().toString());
+
+        response.addCookie(sessionCookie);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .header("userIdHash", userIdHash)
                 .build();
     }
 
