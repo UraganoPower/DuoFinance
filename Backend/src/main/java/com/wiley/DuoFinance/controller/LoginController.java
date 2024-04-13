@@ -48,7 +48,7 @@ public class LoginController {
 
         try {
             user = loginService.login(credentials);
-            final String userKey = String.valueOf(user.getEmail());
+            final String userKey = String.valueOf(user.getUserId());
             userHash = HashUtility.encrypt(userKey);
 
             //create the user session in memory
@@ -58,8 +58,7 @@ public class LoginController {
             response.addCookie(sessionCookie);
 
             user.setPassword(null);
-            //todo: {i remove user.setId(null) because in all me test the id was already set to null}
-            //remove this comment if you seen and agree with this.
+            user.setUserId(null);
 
             return ResponseEntity
                     .status(HttpStatus.OK)
@@ -71,7 +70,6 @@ public class LoginController {
                     .body(JsonGenerator.formatSingleError("login", "The provided email and password did not match."));
         }
     }
-
 
     @GetMapping("/login")
     public ResponseEntity<?> isLogin(HttpServletRequest request) {

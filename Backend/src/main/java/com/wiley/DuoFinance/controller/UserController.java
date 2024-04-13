@@ -2,6 +2,7 @@ package com.wiley.DuoFinance.controller;
 
 import com.wiley.DuoFinance.model.User;
 import com.wiley.DuoFinance.security.HashUtility;
+import com.wiley.DuoFinance.security.Session;
 import com.wiley.DuoFinance.service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,19 +37,20 @@ public class UserController {
     }
 
     @PostMapping("/user")
-    public ResponseEntity<?> addUser(@RequestBody User user, HttpServletRequest request) throws Exception {
+    public ResponseEntity<?> addUser(@RequestBody User user, HttpServletResponse response) throws Exception {
 
-        int userId;
         String userIdHash;
 
         userService.validateUser(user);
-        userId = userService.addUser(user);
+        final String userId = String.valueOf(userService.addUser(user));
 
-        userIdHash = HashUtility.encrypt(String.valueOf(userId));
+        userIdHash = HashUtility.encrypt(userId);
 
-        // Create a cookie with the userIdHash
-        Cookie cookie = new Cookie("userIdHash", userIdHash);
-        cookie.setMaxAge(7200); // 2 hours
+        //create the user session in memory
+        Cookie sessionCookie = Session.add(userIdHash, userId);
+
+        //add the session cookie to the response
+        response.addCookie(sessionCookie);
 
         // Add the cookie to the response
 

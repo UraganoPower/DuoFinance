@@ -35,21 +35,9 @@ const SignIn = () => {
     });
   };
 
-  const testCookie = () => {
-    fetch("http://localhost:8080/api/login", {
-      method: "GET",
-      credentials: "include",
-    }).then((res) => {
-      res.json().then((data) => {
-        console.log(data);
-      });
-    });
-  };
-
   return (
     <>
       <section className="flex">
-        <button onClick={testCookie}>test cookie</button>
         <div className="w-[50%] h-[100vh] land-img"></div>
         <div className="w-[50%] h-[100vh] ">
           <div className="wrapper-log">

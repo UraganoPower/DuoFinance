@@ -9,7 +9,8 @@ import java.util.Map;
 public class Session {
 
   // Map<UserHashId, UserID>
-  private static Map<String, String> users = new HashMap<>();
+  private final static Map<String, String> users = new HashMap<>();
+  private final static String SESSION_COOKIE_NAME = "userIdHash";
 
 
   /**
@@ -25,7 +26,7 @@ public class Session {
     users.put(userHash, userID);
 
     // Create a cookie with the userHash
-    Cookie cookie = new Cookie("userIdHash", userHash);
+    Cookie cookie = new Cookie(SESSION_COOKIE_NAME, userHash);
     cookie.setMaxAge(7200); // 2 hours
 
     return cookie;
@@ -46,7 +47,7 @@ public class Session {
     Cookie[] cookies = request.getCookies();
     if (cookies != null) {
       for (Cookie cookie : cookies) {
-        if (cookie.getName().equals("userIdHash")) {
+        if (cookie.getName().equals(SESSION_COOKIE_NAME)) {
           return cookie;
         }
       }
