@@ -24,17 +24,9 @@ const SignIn = () => {
         username: userNameRef.current.value,
         email: emailRef.current.value,
         password: passwordRef.current.value,
-        // confirmpassword: confirmpPasswordRef.current.value,
       }),
     }).then((res) => {
       setStatus(res.status);
-      console.log("status: ", res.status);
-
-      for (const pair of res.headers.keys()) {
-        console.log(pair);
-      }
-
-      res.headers.forEach((value, name) => console.log(name, value));
 
       res.json().then((data) => {
         setData(data);
@@ -43,9 +35,21 @@ const SignIn = () => {
     });
   };
 
+  const testCookie = () => {
+    fetch("http://localhost:8080/api/login", {
+      method: "GET",
+      credentials: "include",
+    }).then((res) => {
+      res.json().then((data) => {
+        console.log(data);
+      });
+    });
+  };
+
   return (
     <>
       <section className="flex">
+        <button onClick={testCookie}>test cookie</button>
         <div className="w-[50%] h-[100vh] land-img"></div>
         <div className="w-[50%] h-[100vh] ">
           <div className="wrapper-log">

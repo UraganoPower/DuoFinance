@@ -4,6 +4,7 @@ import com.wiley.DuoFinance.model.User;
 import com.wiley.DuoFinance.security.HashUtility;
 import com.wiley.DuoFinance.service.UserService;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,7 @@ public class UserController {
     }
 
     @PostMapping("/user")
-    public ResponseEntity<?> addUser(@RequestBody User user, HttpServletResponse response) throws Exception {
+    public ResponseEntity<?> addUser(@RequestBody User user, HttpServletRequest request) throws Exception {
 
         int userId;
         String userIdHash;
@@ -50,7 +51,6 @@ public class UserController {
         cookie.setMaxAge(7200); // 2 hours
 
         // Add the cookie to the response
-        response.addCookie(cookie);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
