@@ -9,4 +9,6 @@ public interface UserDao {
     boolean isEmailAvailable(String email);
 
     User getUserById(int userId);
+
+    void deleteUserById(int userId);
 }
