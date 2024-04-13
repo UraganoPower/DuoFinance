@@ -21,18 +21,24 @@ public class UserController {
     UserService userService;
 
     @GetMapping(value = "/user", produces = "application/json")
-    public ResponseEntity<?> getUser(@RequestHeader(name = "userIdHash", required = true) String userIdHash) throws Exception {
-
-        int userId;
+    public ResponseEntity<?> getUser(HttpServletRequest request) throws Exception {
         User user;
 
-        userId = Integer.parseInt(HashUtility.decrypt(userIdHash));
+        //look if the user is logged in
+        String userId = Session.findUserId(request);
 
-        user = userService.getUserById(userId);
+        if (userId == null) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .build();
+        }
 
+        //get the user
+        user = userService.getUserById(Integer.parseInt(userId));
+
+        //return the user
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .header("userIdHash", userIdHash)
                 .body(user);
     }
 

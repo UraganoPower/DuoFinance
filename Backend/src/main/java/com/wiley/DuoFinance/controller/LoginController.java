@@ -74,7 +74,7 @@ public class LoginController {
     @GetMapping("/login")
     public ResponseEntity<?> isLogin(HttpServletRequest request) {
 
-        if(Session.findCookie(request) == null) {
+        if(Session.findUserId(request) == null) {
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
                     .build();

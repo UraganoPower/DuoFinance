@@ -38,17 +38,17 @@ public class Session {
    * @return the user id if the user exists in the session else null
    *
    * */
-  public static String isExists(String userIdHash) {
+  private static String isExists(String userIdHash) {
     return users.get(userIdHash);
   }
 
 
-  public static Cookie findCookie(HttpServletRequest request) {
+  public static String findUserId(HttpServletRequest request) {
     Cookie[] cookies = request.getCookies();
     if (cookies != null) {
       for (Cookie cookie : cookies) {
         if (cookie.getName().equals(SESSION_COOKIE_NAME)) {
-          return cookie;
+          return isExists(cookie.getValue());
         }
       }
     }
