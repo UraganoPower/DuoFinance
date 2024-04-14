@@ -75,7 +75,7 @@
 
 .question-printer {
   /* perimeters */
-  @apply w-[550px] h-[360px];
+  @apply w-[550px] h-[360px] p-[25px];
 
   /* bg */
   @apply bg-gradient-to-b from-secondary to-accent;
@@ -84,12 +84,78 @@
   @apply rounded-[10px];
 }
 
+/* Style for the scroll bar track */
+.scrollable::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+}
+
+/* Style for the scroll bar thumb/dragger */
+.scrollable::-webkit-scrollbar-thumb {
+  @apply bg-gradient-to-b from-primary to-secondary;
+  border-radius: 5px; /* Rounded corners */
+}
+
+/* Style for the scroll bar track when hovering */
+.scrollable::-webkit-scrollbar-thumb:hover {
+  @apply cursor-grab;
+}
+
+/* Style for the scroll bar track when hovering */
+.scrollable::-webkit-scrollbar-thumb:active {
+  @apply cursor-grabbing;
+}
+
+/* Style for the scroll bar track */
+.scrollable::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
 .answer-printer {
   /* perimeters */
   @apply mt-[50px];
 }
 
-.answer {
+.answers {
   /* perimeters */
   @apply w-[550px] h-[70px];
+}
+
+.answer {
+  /* display */
+  @apply flex items-center;
+
+  /* perimeters */
+  @apply mb-[10px];
+
+  /* text */
+  @apply text-[25px];
+
+  /* cursor */
+  @apply cursor-pointer;
+}
+
+.pointer-game {
+  @apply ml-[20px];
+}
+
+.answer > .pointer-game {
+  /* display */
+  @apply invisible;
+}
+
+.answer:hover > .pointer-game {
+  /* display */
+  @apply visible;
+
+  /* animation */
+  animation: loop-pointer 1s linear infinite;
+}
+
+@keyframes loop-pointer {
+  0% {
+    transform: translateX(0px);
+  }
+  50% {
+    transform: translateX(-10px);
+  }
 }
