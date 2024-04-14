@@ -29,7 +29,7 @@ public class QuestionController {
 
         Question newQuestion;
 
-        Session.findUserId(request);
+        String userIdHash = Session.getHash(request);
 
         loginService.confirmAdminStatus(userIdHash);
 

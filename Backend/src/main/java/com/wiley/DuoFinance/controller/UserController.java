@@ -26,16 +26,12 @@ public class UserController {
         User user;
 
         //look if the user is logged in
-        String userId = Session.findUserId(request);
+        String userIdHash = Session.getHash(request);
 
-        if (userId == null) {
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .build();
-        }
+        int userId = userService.decryptUserId(userIdHash);
 
         //get the user
-        user = userService.getUserById(Integer.parseInt(userId));
+        user = userService.getUserById(userId);
         user.setUserId(null);
 
         //return the user
@@ -55,7 +51,7 @@ public class UserController {
         userIdHash = HashUtility.encrypt(userId);
 
         //create the user session in memory
-        Cookie sessionCookie = Session.add(userIdHash, userId);
+        Cookie sessionCookie = Session.add(userIdHash);
 
         //add the session cookie to the response
         response.addCookie(sessionCookie);
@@ -68,17 +64,20 @@ public class UserController {
     }
 
     @DeleteMapping("/user")
-    public ResponseEntity<?> deleteUserById(@RequestHeader(name = "userIdHash", required = true) String userIdHash) throws CannotLoginException {
+    public ResponseEntity<?> deleteUserById(HttpServletRequest request) throws CannotLoginException {
 
-        int userId;
 
-        userId = userService.decryptUserId(userIdHash);
+        String userIdHash = Session.getHash(request);
+        //check if the user is logged in
+
+        final int userId = userService.decryptUserId(userIdHash);
 
         userService.deleteUserById(userId);
 
+        //todo: create cookie to close
+
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .header("userIdHash", userIdHash)
                 .build();
     }
 }
