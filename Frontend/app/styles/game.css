@@ -1,0 +1,54 @@
+.screen {
+  @apply flex justify-center;
+
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(51, 50, 50, 1) 100%
+  );
+
+  color: white;
+}
+
+.game-section {
+  /* perimeters */
+  @apply max-w-screen-xl w-full h-[100vh];
+}
+
+.game-navigation {
+  /* display */
+  @apply flex justify-between;
+
+  /* perimeters */
+  @apply mt-[30px];
+}
+
+.game-nav-title {
+  @apply text-[35px] select-none;
+}
+
+.user-button {
+  /* perimeters */
+  @apply h-[62px] w-[62px];
+
+  /* display */
+  @apply flex justify-center items-center;
+
+  /* border */
+  @apply rounded-full;
+
+  /* bg */
+  @apply bg-accent;
+}
+
+.user-name {
+  /* text */
+  @apply text-[30px] select-none;
+
+  /* perimeters */
+  @apply mr-[26px];
+}
+
+.initial {
+  @apply text-[30px] select-none text-text;
+}

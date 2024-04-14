@@ -8,10 +8,20 @@
   src: url("../fonts/eurostile.ttf");
 }
 
+@font-face {
+  font-family: "Noto";
+  src: url("../fonts/NotoSansDisplay.ttf");
+}
+
 .europa {
   font-family: "Europa", sans-serif;
 }
 
 .eurostyle {
   font-family: "Eurostyle", sans-serif;
+}
+
+.noto {
+  font-family: "Noto", sans-serif;
+  font-weight: 600;
 }
