@@ -48,6 +48,14 @@ public class UserMySqlDao implements UserDao {
     }
 
     @Override
+    public void updateUser(int userId, User user) {
+
+        String query = "update user set username = ? where userId = ?";
+
+        jdbcTemplate.update(query, user.getUsername(), userId);
+    }
+
+    @Override
     public boolean isEmailAvailable(String email) {
 
         String query = "select not exists(select * from user where email = ?)";

@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
 
         Map<String, Object> errors = new HashMap<>();
 
-        errors.put("errors", UserValidator.getErrors());
+        errors.put("errors", ex.getErrors());
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)

@@ -1,6 +1,7 @@
 package com.wiley.DuoFinance.controller;
 
 import com.wiley.DuoFinance.exception.CannotLoginException;
+import com.wiley.DuoFinance.exception.InvalidUserException;
 import com.wiley.DuoFinance.model.User;
 import com.wiley.DuoFinance.security.HashUtility;
 import com.wiley.DuoFinance.security.Session;
@@ -60,6 +61,20 @@ public class UserController {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
+                .build();
+    }
+
+    @PutMapping("/user")
+    public ResponseEntity<?> updateUserById(HttpServletRequest request, @RequestBody User user) throws CannotLoginException, InvalidUserException {
+
+        String userIdHash = Session.getHash(request);
+        final int userId = userService.decryptUserId(userIdHash);
+
+        userService.validateUserUpdate(user);
+        userService.updateUser(userId, user);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
                 .build();
     }
 
