@@ -19,16 +19,17 @@ const Game = () => {
             </button>
           </div>
         </nav>
-        <div className="flex justify-center mt-[70px]">
+        <div className="main-game-wrapper">
           <div className="flex flex-col">
-            <div className="relative border-t-[3px] border-l-[3px] border-r-[3px] border-white border-solid h-[43px] mb-[15px]">
-              <span className="absolute top-[8px] left-[25px] text-[30px] noto">
-                Question
-              </span>
+            <div className="question-border-printer">
+              <span className="question-counter noto">Question</span>
             </div>
-            <div className="w-[550px] h-[360px] bg-gradient-to-b from-secondary to-accent rounded-[10px]"></div>
+            <div className="question-printer"></div>
+            <div className="answer-printer">
+              <h4 className="noto">Select Answer</h4>
+            </div>
           </div>
-          <img className="ml-[30px]" src="/image/Men.png"></img>
+          <img className="ml-[30px] h-[468px]" src="/image/Men.png"></img>
         </div>
       </section>
     </div>

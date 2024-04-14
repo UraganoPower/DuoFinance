@@ -52,3 +52,44 @@
 .initial {
   @apply text-[30px] select-none text-text;
 }
+
+.main-game-wrapper {
+  /* display */
+  @apply flex justify-center;
+
+  /* perimeters */
+  @apply mt-[70px];
+}
+
+.question-border-printer {
+  /* perimeters */
+  @apply relative  h-[43px] mb-[15px];
+
+  /* border */
+  @apply border-t-[3px] border-l-[3px] border-r-[3px] border-white border-solid;
+}
+
+.question-counter {
+  @apply absolute top-[8px] left-[25px] text-[30px];
+}
+
+.question-printer {
+  /* perimeters */
+  @apply w-[550px] h-[360px];
+
+  /* bg */
+  @apply bg-gradient-to-b from-secondary to-accent;
+
+  /* border */
+  @apply rounded-[10px];
+}
+
+.answer-printer {
+  /* perimeters */
+  @apply mt-[50px];
+}
+
+.answer {
+  /* perimeters */
+  @apply w-[550px] h-[70px];
+}
