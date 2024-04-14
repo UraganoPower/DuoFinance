@@ -56,24 +56,6 @@ public class LoginController {
                 .build();
     }
 
-    @GetMapping("/basic")
-    public String checkBasic(@RequestHeader(name = "userIdHash", required = true) String userIdHash) throws CannotLoginException, BasicRoleRequiredException {
-
-        loginService.confirmBasicStatus(userIdHash);
-
-        return "Welcome my dear BASIC user.";
-    }
-
-
-
-    @GetMapping("/admin")
-    public String checkAdmin(@RequestHeader(name = "userIdHash", required = true) String userIdHash) throws CannotLoginException, AdminRoleRequiredException {
-
-        loginService.confirmAdminStatus(userIdHash);
-
-        return "Welcome my dear ADMIN user.";
-    }
-
     @GetMapping("/login")
     public ResponseEntity<?> isLogin(HttpServletRequest request) throws CannotLoginException {
         Session.getHash(request);
