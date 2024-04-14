@@ -1,0 +1,137 @@
+.land-img {
+  background-image: url("../../public/image/landScapeLog.png");
+  background-position: bottom right;
+}
+
+.wrapper-log {
+  /* display */
+  @apply flex flex-col justify-start;
+
+  /* perimeters */
+  @apply pt-[82px] pl-[90px];
+}
+
+.title-log {
+  /* text */
+  @apply text-[100px] tracking-[-8px] select-none;
+
+  /* margin */
+  @apply leading-[55px];
+}
+
+.title-log-msg {
+  /* text */
+  @apply text-[70px] tracking-[-5px] select-none;
+
+  /* color */
+  @apply text-secondary;
+
+  /* margin */
+  @apply leading-[55px] mt-[24px];
+}
+
+.input-log-wrapper {
+  /* display */
+  @apply flex flex-col relative;
+
+  /* perimeters */
+  @apply mb-[20px] w-[530px];
+}
+
+.input-log-label {
+  /* text */
+  @apply text-[25px];
+
+  /* perimeters */
+  @apply mb-[15px] ml-[8px];
+}
+
+.input-log {
+  /* border */
+  @apply border-[1px] border-gray-300 rounded-[10px] outline-none;
+
+  /* perimeters */
+  @apply p-2 h-[60px];
+}
+
+.input-log:hover {
+  /* border */
+  @apply border-[1px] border-gray-500;
+}
+
+.input-log:focus {
+  /* border */
+  @apply border-[2px] border-secondary;
+}
+
+.input-error {
+  @apply absolute bottom-[-22px] right-0 text-[14px]  text-red-500 select-none;
+}
+
+.link-to {
+  /* color */
+  @apply text-accent;
+
+  /* text */
+  @apply underline;
+
+  transition: 0.2s;
+}
+
+.link-to:hover {
+  /* color */
+
+  @apply text-secondary;
+}
+
+.link-to-login {
+  @apply flex justify-center items-center  text-accent;
+
+  /* border */
+
+  transition: 0.2s;
+}
+
+.log-button {
+  /* display */
+  @apply flex justify-center items-center;
+
+  /* bg */
+  @apply bg-primary;
+
+  /* color */
+  @apply text-white;
+
+  /* perimeters */
+  @apply px-[20px] py-[10px];
+
+  /* border */
+  @apply rounded-[5px];
+
+  transition: 0.3s;
+}
+
+.log-button:hover {
+  /* bg */
+  @apply bg-blue-700;
+
+  @apply shadow-md;
+}
+
+.log-button:active {
+  @apply shadow-none;
+
+  transform: translateX(-3px);
+}
+
+.github {
+  @apply absolute bottom-[30px] right-[40px] flex flex-col items-end text-[15px];
+}
+
+.github-link {
+  transition: 0.2s;
+}
+
+.github-link:hover {
+  @apply text-accent;
+}

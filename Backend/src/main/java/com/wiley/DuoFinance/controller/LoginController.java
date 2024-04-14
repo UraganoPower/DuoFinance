@@ -5,16 +5,25 @@ import com.wiley.DuoFinance.exception.BasicRoleRequiredException;
 import com.wiley.DuoFinance.exception.CannotLoginException;
 import com.wiley.DuoFinance.model.Credentials;
 import com.wiley.DuoFinance.model.User;
+import com.wiley.DuoFinance.security.HashUtility;
+import com.wiley.DuoFinance.security.Session;
+import com.wiley.DuoFinance.service.LoginService;
+import com.wiley.DuoFinance.util.JsonGenerator;
+import com.wiley.DuoFinance.validation.CredentialsValidator;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import com.wiley.DuoFinance.service.LoginService;
 import com.wiley.DuoFinance.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.POST, RequestMethod.GET}, allowCredentials = "true")
 public class LoginController {
 
     @Autowired
@@ -24,17 +33,20 @@ public class LoginController {
     UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Credentials credentials) throws Exception {
+    public ResponseEntity<?> login(@RequestBody Credentials credentials, HttpServletResponse response) throws Exception {
 
         User user;
-        String userIdHash;
+        String userHash;
 
         user = loginService.login(credentials);
-        userIdHash = userService.encryptUserId(user.getUserId());
+        userHash = userService.encryptUserId(user.getUserId());
+
+        Cookie sessionCookie = Session.add(userHash, user.getUserId().toString());
+
+        response.addCookie(sessionCookie);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .header("userIdHash", userIdHash)
                 .build();
     }
 
@@ -52,5 +64,19 @@ public class LoginController {
         loginService.confirmAdminStatus(userIdHash);
 
         return "Welcome my dear ADMIN user.";
+    }
+
+    @GetMapping("/login")
+    public ResponseEntity<?> isLogin(HttpServletRequest request) {
+
+        if(Session.findUserId(request) == null) {
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .build();
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
     }
 }
