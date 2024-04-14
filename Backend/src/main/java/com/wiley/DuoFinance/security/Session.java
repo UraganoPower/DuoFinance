@@ -27,6 +27,13 @@ public class Session {
 
     return cookie;
   }
+
+
+  public static Cookie remove(){
+    Cookie cookie = new Cookie(SESSION_COOKIE_NAME, "");
+    cookie.setMaxAge(0);
+    return cookie;
+  }
 //
 //  /**
 //   * Check if the user exists in the session

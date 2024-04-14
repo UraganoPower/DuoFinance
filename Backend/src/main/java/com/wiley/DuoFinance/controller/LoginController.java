@@ -45,6 +45,17 @@ public class LoginController {
                 .build();
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletResponse response) throws Exception {
+        Cookie removeCookie = Session.remove();
+
+        response.addCookie(removeCookie);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
+    }
+
     @GetMapping("/basic")
     public String checkBasic(@RequestHeader(name = "userIdHash", required = true) String userIdHash) throws CannotLoginException, BasicRoleRequiredException {
 
@@ -52,6 +63,8 @@ public class LoginController {
 
         return "Welcome my dear BASIC user.";
     }
+
+
 
     @GetMapping("/admin")
     public String checkAdmin(@RequestHeader(name = "userIdHash", required = true) String userIdHash) throws CannotLoginException, AdminRoleRequiredException {
