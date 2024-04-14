@@ -6,6 +6,7 @@ import com.wiley.DuoFinance.exception.EmailAlreadyTakenException;
 import com.wiley.DuoFinance.exception.InvalidUserException;
 import com.wiley.DuoFinance.model.User;
 import com.wiley.DuoFinance.security.HashUtility;
+import com.wiley.DuoFinance.validation.UserUpdateValidator;
 import com.wiley.DuoFinance.validation.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updateUser(int userId, User user) {
+        userDao.updateUser(userId, user);
+    }
+
+    @Override
     public boolean isEmailAvailable(String email) {
         return userDao.isEmailAvailable(email);
     }
@@ -35,6 +41,15 @@ public class UserServiceImpl implements UserService {
 
         if(!this.isEmailAvailable(user.getEmail())) {
             throw new EmailAlreadyTakenException();
+        }
+
+    }
+
+    @Override
+    public void validateUserUpdate(User user) throws InvalidUserException {
+
+        if(!UserUpdateValidator.isValidUser(user)) {
+            throw new InvalidUserException(UserUpdateValidator.getErrors());
         }
 
     }
