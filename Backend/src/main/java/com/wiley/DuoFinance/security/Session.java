@@ -1,5 +1,6 @@
 package com.wiley.DuoFinance.security;
 
+import com.wiley.DuoFinance.exception.CannotLoginException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -43,7 +44,7 @@ public class Session {
   }
 
 
-  public static String findUserId(HttpServletRequest request) {
+  public static String findUserId(HttpServletRequest request) throws CannotLoginException {
     Cookie[] cookies = request.getCookies();
     if (cookies != null) {
       for (Cookie cookie : cookies) {
@@ -52,6 +53,7 @@ public class Session {
         }
       }
     }
-    return null;
+
+    throw new CannotLoginException();
   }
 }

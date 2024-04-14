@@ -4,8 +4,10 @@ import com.wiley.DuoFinance.exception.AdminRoleRequiredException;
 import com.wiley.DuoFinance.exception.CannotLoginException;
 import com.wiley.DuoFinance.exception.InvalidQuestionException;
 import com.wiley.DuoFinance.model.Question;
+import com.wiley.DuoFinance.security.Session;
 import com.wiley.DuoFinance.service.LoginService;
 import com.wiley.DuoFinance.service.QuestionService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +25,11 @@ public class QuestionController {
     QuestionService questionService;
 
     @PostMapping("/question")
-    public ResponseEntity<?> addQuestion(@RequestHeader(name = "userIdHash", required = true) String userIdHash, @RequestBody Question question) throws CannotLoginException, AdminRoleRequiredException, InvalidQuestionException {
+    public ResponseEntity<?> addQuestion(HttpServletRequest request, @RequestBody Question question) throws CannotLoginException, AdminRoleRequiredException, InvalidQuestionException {
 
         Question newQuestion;
+
+        Session.findUserId(request);
 
         loginService.confirmAdminStatus(userIdHash);
 
