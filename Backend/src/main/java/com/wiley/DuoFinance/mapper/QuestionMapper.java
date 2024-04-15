@@ -18,7 +18,7 @@ public class QuestionMapper implements RowMapper<Question> {
         question.setQuestionId(rs.getInt("questionId"));
         question.setQuestionText(rs.getString("questionText"));
         question.setChoiceA(rs.getString("choiceA"));
-        question.setChoiceB(rs.getString("choiceC"));
+        question.setChoiceB(rs.getString("choiceB"));
         question.setChoiceC(rs.getString("choiceC"));
         question.setAnswer(rs.getString("answer"));
 

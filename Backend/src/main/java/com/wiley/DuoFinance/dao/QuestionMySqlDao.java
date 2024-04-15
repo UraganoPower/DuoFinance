@@ -1,5 +1,6 @@
 package com.wiley.DuoFinance.dao;
 
+import com.wiley.DuoFinance.exception.QuestionUsedException;
 import com.wiley.DuoFinance.mapper.QuestionMapper;
 import com.wiley.DuoFinance.model.Question;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,16 +60,45 @@ public class QuestionMySqlDao implements QuestionDao {
     }
 
     @Override
+    public List<Question> getAllQuestions() {
+
+        List<Question> questions;
+        String query = "select * from question";
+
+        questions = jdbcTemplate.query(query, new QuestionMapper());
+
+        return questions;
+    }
+
+    @Override
     public void updateQuestion(Question question) {
+        
+        String query = "update question set questionText = ?, choiceA = ?, choiceB = ?, choiceC = ?, answer = ? " +
+                "where questionId = ?";
 
-        // Add you code here...
+        jdbcTemplate.update(query, question.getQuestionText(), question.getChoiceA(), question.getChoiceB(), question.getChoiceC(),
+                question.getAnswer(), question.getQuestionId());
+    }
 
-        /*
-        You will receive a question contain all the parameters
-        You need to update all the value (questionText, choiceA, choiceB, choiceC, answer)
-        for the question with the questionId.
-         */
+    @Override
+    public void deleteQuestionById(int questionId) throws QuestionUsedException {
 
+        String query = "delete from question where questionId = ?";
 
+        if(!isQuestionUsed(questionId)) {
+            jdbcTemplate.update(query, questionId);
+        } else {
+            throw new QuestionUsedException();
+        }
+    }
+
+    private boolean isQuestionUsed(int questionId) {
+
+        int count;
+        String query = "select count(*) from game_question where questionId = ?";
+
+        count = jdbcTemplate.queryForObject(query, Integer.class, questionId);
+
+        return count != 0;
     }
 }

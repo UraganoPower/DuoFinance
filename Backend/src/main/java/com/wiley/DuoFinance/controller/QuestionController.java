@@ -40,6 +40,22 @@ public class QuestionController {
                 .body(randomQuestions);
     }
 
+    @GetMapping("/question")
+    public ResponseEntity<?> getAllQuestions(HttpServletRequest request) throws CannotLoginException, AdminRoleRequiredException, NoQuestionAvailableException {
+
+        List<Question> questions;
+
+        String userIdHash = Session.getHash(request);
+
+        loginService.confirmAdminStatus(userIdHash);
+
+        questions = questionService.getAllQuestions();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(questions);
+    }
+
     @PostMapping("/question")
     public ResponseEntity<?> addQuestion(HttpServletRequest request, @RequestBody Question question) throws CannotLoginException, AdminRoleRequiredException, InvalidQuestionException {
 
@@ -57,7 +73,7 @@ public class QuestionController {
                 .body(newQuestion);
     }
 
-    @PutMapping("question")
+    @PutMapping("/question")
     public ResponseEntity<?> updateQuestion(HttpServletRequest request, @RequestBody Question question) throws CannotLoginException, AdminRoleRequiredException, InvalidQuestionException {
 
         String userIdHash = Session.getHash(request);
@@ -66,6 +82,20 @@ public class QuestionController {
 
         questionService.validateQuestion(question);
         questionService.updateQuestion(question);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
+    }
+
+    @DeleteMapping("/question/{questionId}")
+    public ResponseEntity<?> deleteQuestionById(HttpServletRequest request, @PathVariable int questionId) throws CannotLoginException, AdminRoleRequiredException, QuestionUsedException {
+
+        String userIdHash = Session.getHash(request);
+
+        loginService.confirmAdminStatus(userIdHash);
+
+        questionService.deleteQuestionById(questionId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
