@@ -9,4 +9,6 @@ public interface QuestionDao {
     Question addQuestion(Question question);
 
     List<Question> getRandomQuestions();
+
+    void updateQuestion(Question question);
 }

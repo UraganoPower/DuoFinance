@@ -46,4 +46,9 @@ public class QuestionServiceImpl implements QuestionService {
 
         return randomQuestions;
     }
+
+    @Override
+    public void updateQuestion(Question question) {
+        questionDao.updateQuestion(question);
+    }
 }

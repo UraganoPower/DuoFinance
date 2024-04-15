@@ -57,4 +57,19 @@ public class QuestionController {
                 .body(newQuestion);
     }
 
+    @PutMapping("question")
+    public ResponseEntity<?> updateQuestion(HttpServletRequest request, @RequestBody Question question) throws CannotLoginException, AdminRoleRequiredException, InvalidQuestionException {
+
+        String userIdHash = Session.getHash(request);
+
+        loginService.confirmAdminStatus(userIdHash);
+
+        questionService.validateQuestion(question);
+        questionService.updateQuestion(question);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
+    }
+
 }

@@ -13,4 +13,6 @@ public interface QuestionService {
     Question addQuestion(Question question);
 
     List<Question> getRandomQuestions() throws NoQuestionAvailableException;
+
+    void updateQuestion(Question question);
 }

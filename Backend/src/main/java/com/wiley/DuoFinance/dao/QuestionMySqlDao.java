@@ -57,4 +57,18 @@ public class QuestionMySqlDao implements QuestionDao {
 
         return randomQuestions;
     }
+
+    @Override
+    public void updateQuestion(Question question) {
+
+        // Add you code here...
+
+        /*
+        You will receive a question contain all the parameters
+        You need to update all the value (questionText, choiceA, choiceB, choiceC, answer)
+        for the question with the questionId.
+         */
+
+
+    }
 }
