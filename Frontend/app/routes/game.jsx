@@ -2,8 +2,9 @@ import gameStyle from "~/styles/game.css";
 import CRT_STYLE from "~/styles/crt.css";
 import Answer from "../components/answer";
 import Question from "../components/question";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PlayButton from "../components/PlayButton";
+import { Button } from "@nextui-org/button";
 
 export const links = () => [
   { rel: "stylesheet", href: gameStyle },
@@ -12,6 +13,7 @@ export const links = () => [
 
 let questionsForBack = [];
 const Game = () => {
+  const sheetRef = useRef(null);
   const [isGameRunning, setIsGameRunning] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState({
     questionText: "Are you ready for the super Duo Finance?",
@@ -88,6 +90,10 @@ const Game = () => {
     setIsGameRunning(true);
   };
 
+  const toggleSheet = () => {
+    sheetRef.current.classList.toggle("collapsed");
+  };
+
   return (
     <div className="screen scanlines">
       <section className="game-section">
@@ -95,7 +101,7 @@ const Game = () => {
           <h1 className="noto game-nav-title ">Duo Finance</h1>
           <div className="flex items-center">
             <span className="user-name noto">Bill_cipher</span>
-            <button className="user-button">
+            <button onClick={toggleSheet} className="user-button">
               <span className="initial noto">B</span>
             </button>
           </div>
@@ -155,6 +161,14 @@ const Game = () => {
           <img className="ml-[30px] h-[468px]" src="/image/Men.png"></img>
         </div>
       </section>
+      <div ref={sheetRef} className="sheet collapsed">
+        <div className="wrapper-sheet">
+          <h1 className="noto text-white text-[35px]"> Duo Finance Setings </h1>
+          <Button className="noto" onClick={toggleSheet}>
+            test
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };

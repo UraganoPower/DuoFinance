@@ -10,6 +10,7 @@ import {
 } from "@remix-run/react";
 import styles from "./tailwind.css";
 import global from "~/styles/global.css";
+import { NextUIProvider } from "@nextui-org/system";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: styles },
@@ -26,10 +27,12 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
+        <NextUIProvider>
+          <Outlet />
+          <ScrollRestoration />
+          <Scripts />
+          <LiveReload />
+        </NextUIProvider>
       </body>
     </html>
   );

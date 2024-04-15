@@ -11,10 +11,14 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@nextui-org/button": "^2.0.27",
+    "@nextui-org/system": "^2.0.15",
+    "@nextui-org/theme": "^2.1.18",
     "@remix-run/css-bundle": "^2.8.1",
     "@remix-run/node": "^2.8.1",
     "@remix-run/react": "^2.8.1",
     "@remix-run/serve": "^2.8.1",
+    "framer-motion": "^11.0.28",
     "http-status-codes": "^2.3.0",
     "isbot": "^4.1.0",
     "react": "^18.2.0",

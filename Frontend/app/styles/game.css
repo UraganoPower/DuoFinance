@@ -177,3 +177,24 @@
     transform: translateX(-10px);
   }
 }
+
+.sheet {
+  @apply absolute bottom-0 right-0 h-[100vh] w-[600px] bg-gradient-to-b from-primary to-primary;
+
+  /* overflow */
+  @apply overflow-x-hidden;
+
+  transition: 0.5s ease-in-out;
+}
+
+.sheet.collapsed {
+  @apply w-[0px];
+}
+
+.wrapper-sheet {
+  /* perimeters */
+  @apply p-[20px] h-full w-max;
+
+  /* border */
+  @apply border-l-[2px] border-solid border-white;
+}
