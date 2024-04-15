@@ -151,6 +151,24 @@
   animation: loop-pointer 1s linear infinite;
 }
 
+.hover-turn {
+  transition: 0.5s;
+}
+
+.button-play:hover > .hover-turn,
+.button-play:hover > .hover-turn {
+  transform: rotate(25deg);
+}
+
+.pointer-play {
+  animation: loop-pointer 1s linear infinite;
+}
+
+.pointer-play-right {
+  animation: loop-pointer 1s linear infinite;
+  animation-delay: 0.5s;
+}
+
 @keyframes loop-pointer {
   0% {
     transform: translateX(0px);

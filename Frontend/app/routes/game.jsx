@@ -2,6 +2,8 @@ import gameStyle from "~/styles/game.css";
 import CRT_STYLE from "~/styles/crt.css";
 import Answer from "../components/answer";
 import Question from "../components/question";
+import { useEffect, useState } from "react";
+import PlayButton from "../components/PlayButton";
 
 export const links = () => [
   { rel: "stylesheet", href: gameStyle },
@@ -9,6 +11,39 @@ export const links = () => [
 ];
 
 const Game = () => {
+  const [isGameRunning, setIsGameRunning] = useState(false);
+  const [loadingQuestions, setLoadingQuestions] = useState(false);
+  const [currentQuestion, setCurrentQuestion] = useState({
+    questionText: "Are you ready for the super Duo Finance?",
+  });
+  const [questions, setQuestions] = useState([]);
+
+  const fetchQuestions = async () => {
+    const res = await fetch("http://localhost:8080/api/random-questions", {
+      method: "GET",
+      credentials: "include",
+    });
+    const data = await res.json();
+    return data;
+  };
+
+  useEffect(() => {
+    console.log("questions : ", questions);
+    console.log("currentQuestion : ", currentQuestion);
+  }, [questions, currentQuestion]);
+
+  const handleStartGame = async () => {
+    //load questions
+
+    setLoadingQuestions(true);
+    const data = await fetchQuestions();
+    setQuestions(data);
+    setCurrentQuestion(data[0]);
+
+    //start game
+    setIsGameRunning(true);
+  };
+
   return (
     <div className="screen scanlines">
       <section className="game-section">
@@ -28,21 +63,38 @@ const Game = () => {
             </div>
             <div className="question-printer">
               <Question className="noto text-[30px] leading-[50px] select-none scrollable overflow-y-auto h-[280px] w-[490px] block">
-                What is a one-year period that companies and governments use for
-                financial reporting and budgeting?
+                {currentQuestion ? currentQuestion.questionText : ""}
               </Question>
             </div>
             <div className="answer-printer">
-              <h4 className="noto text-[20px] mb-[20px]">Select Answer</h4>
-              <div className="answers">
-                <Answer
-                  text="Calendar Year"
-                  letterIndex="A"
-                  onClick={() => {}}
+              {!isGameRunning ? (
+                <PlayButton
+                  onClick={async () => {
+                    await handleStartGame(), console.log(questions);
+                  }}
                 />
-                <Answer text="Fiscal Year" letterIndex="B" onClick={() => {}} />
-                <Answer text="Leap Year" letterIndex="C" onClick={() => {}} />
-              </div>
+              ) : (
+                <>
+                  <h4 className="noto text-[20px] mb-[20px]">Select Answer</h4>
+                  <div className="answers">
+                    <Answer
+                      text={currentQuestion.choiceA}
+                      letterIndex="A"
+                      onClick={() => {}}
+                    />
+                    <Answer
+                      text={currentQuestion.choiceB}
+                      letterIndex="B"
+                      onClick={() => {}}
+                    />
+                    <Answer
+                      text={currentQuestion.choiceC}
+                      letterIndex="C"
+                      onClick={() => {}}
+                    />
+                  </div>
+                </>
+              )}
             </div>
           </div>
           <img className="ml-[30px] h-[468px]" src="/image/Men.png"></img>

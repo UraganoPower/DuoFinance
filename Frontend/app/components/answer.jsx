@@ -6,7 +6,7 @@ const Answer = ({ text, onClick, letterIndex }) => {
       <h4 className="noto">
         {letterIndex}. {text}
       </h4>
-      <PointerGame clasName={"pointer-game  mt-[5px]"}></PointerGame>
+      <PointerGame className={"pointer-game mt-[5px]"}></PointerGame>
     </div>
   );
 };
