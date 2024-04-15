@@ -1,0 +1,200 @@
+.screen {
+  @apply flex justify-center;
+
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(51, 50, 50, 1) 100%
+  );
+
+  color: white;
+}
+
+.game-section {
+  /* perimeters */
+  @apply max-w-screen-xl w-full h-[100vh];
+}
+
+.game-navigation {
+  /* display */
+  @apply flex justify-between;
+
+  /* perimeters */
+  @apply mt-[30px];
+}
+
+.game-nav-title {
+  @apply text-[35px] select-none;
+}
+
+.user-button {
+  /* perimeters */
+  @apply h-[62px] w-[62px];
+
+  /* display */
+  @apply flex justify-center items-center;
+
+  /* border */
+  @apply rounded-full;
+
+  /* bg */
+  @apply bg-accent;
+}
+
+.user-name {
+  /* text */
+  @apply text-[30px] select-none;
+
+  /* perimeters */
+  @apply mr-[26px];
+}
+
+.initial {
+  @apply text-[30px] select-none text-text;
+}
+
+.main-game-wrapper {
+  /* display */
+  @apply flex justify-center;
+
+  /* perimeters */
+  @apply mt-[70px];
+}
+
+.question-border-printer {
+  /* perimeters */
+  @apply relative  h-[43px] mb-[15px];
+
+  /* border */
+  @apply border-t-[3px] border-l-[3px] border-r-[3px] border-white border-solid;
+}
+
+.question-counter {
+  @apply absolute top-[8px] left-[25px] text-[30px];
+}
+
+.question-printer {
+  /* perimeters */
+  @apply w-[550px] h-[360px] p-[25px];
+
+  /* bg */
+  @apply bg-gradient-to-b from-secondary to-accent;
+
+  /* border */
+  @apply rounded-[10px];
+}
+
+/* Style for the scroll bar track */
+.scrollable::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+}
+
+/* Style for the scroll bar thumb/dragger */
+.scrollable::-webkit-scrollbar-thumb {
+  @apply bg-gradient-to-b from-primary to-secondary;
+  border-radius: 5px; /* Rounded corners */
+}
+
+/* Style for the scroll bar track when hovering */
+.scrollable::-webkit-scrollbar-thumb:hover {
+  @apply cursor-grab;
+}
+
+/* Style for the scroll bar track when hovering */
+.scrollable::-webkit-scrollbar-thumb:active {
+  @apply cursor-grabbing;
+}
+
+/* Style for the scroll bar track */
+.scrollable::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.answer-printer {
+  /* perimeters */
+  @apply mt-[50px];
+}
+
+.answers {
+  /* perimeters */
+  @apply w-[550px] h-[70px];
+}
+
+.answer {
+  /* display */
+  @apply flex items-center;
+
+  /* perimeters */
+  @apply mb-[10px];
+
+  /* text */
+  @apply text-[25px];
+
+  /* cursor */
+  @apply cursor-pointer;
+}
+
+.pointer-game {
+  @apply ml-[20px];
+}
+
+.answer > .pointer-game {
+  /* display */
+  @apply invisible;
+}
+
+.answer:hover > .pointer-game {
+  /* display */
+  @apply visible;
+
+  /* animation */
+  animation: loop-pointer 1s linear infinite;
+}
+
+.hover-turn {
+  transition: 0.5s;
+}
+
+.button-play:hover > .hover-turn,
+.button-play:hover > .hover-turn {
+  transform: rotate(25deg);
+}
+
+.pointer-play {
+  animation: loop-pointer 1s linear infinite;
+}
+
+.pointer-play-right {
+  animation: loop-pointer 1s linear infinite;
+  animation-delay: 0.5s;
+}
+
+@keyframes loop-pointer {
+  0% {
+    transform: translateX(0px);
+  }
+  50% {
+    transform: translateX(-10px);
+  }
+}
+
+.sheet {
+  @apply absolute bottom-0 right-0 h-[100vh] w-[600px] bg-gradient-to-b from-primary to-primary;
+
+  /* overflow */
+  @apply overflow-x-hidden;
+
+  transition: 0.5s ease-in-out;
+}
+
+.sheet.collapsed {
+  @apply w-[0px];
+}
+
+.wrapper-sheet {
+  /* perimeters */
+  @apply p-[20px] h-full w-max;
+
+  /* border */
+  @apply border-l-[2px] border-solid border-white;
+}

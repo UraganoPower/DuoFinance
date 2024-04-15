@@ -1,19 +1,36 @@
-import { Form, Link, useFetcher } from "@remix-run/react";
+import { Form, Link, useFetcher, useNavigate } from "@remix-run/react";
 import ArrowRSvg from "~/svg/arrowRSvg";
 import style from "~/styles/login.css";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { StatusCodes } from "http-status-codes";
 
 export const links = () => [{ rel: "stylesheet", href: style }];
 
 const SignIn = () => {
   const userNameRef = useRef();
   const emailRef = useRef();
+  const navigate = useNavigate();
   const passwordRef = useRef();
   const confirmpPasswordRef = useRef();
-  const [status, setStatus] = useState();
   const [data, setData] = useState();
 
+  useEffect(() => {
+    fetch("http://localhost:8080/api/login", {
+      method: "Get",
+      credentials: "include",
+    }).then((res) => {
+      if (res.status === StatusCodes.OK) {
+        navigate("/game");
+      }
+    });
+  }, []);
+
   const handleFetchSignIn = () => {
+    if (passwordRef.current.value !== confirmpPasswordRef.current.value) {
+      setData({ errors: { password: "passwords don't match" } });
+      return;
+    }
+
     fetch("http://localhost:8080/api/user", {
       method: "POST",
       credentials: "include",
@@ -26,12 +43,12 @@ const SignIn = () => {
         password: passwordRef.current.value,
       }),
     }).then((res) => {
-      setStatus(res.status);
-
-      res.json().then((data) => {
-        setData(data);
-        console.log(data);
-      });
+      console.log(res);
+      if (res.status === StatusCodes.CREATED) {
+        navigate("/game");
+      } else {
+        res.json().then((data) => setData(data));
+      }
     });
   };
 

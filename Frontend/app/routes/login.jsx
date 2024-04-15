@@ -1,5 +1,6 @@
-import { Link } from "@remix-run/react";
-import { useRef } from "react";
+import { Link, useNavigate } from "@remix-run/react";
+import { StatusCodes } from "http-status-codes";
+import { useEffect, useRef, useState } from "react";
 import style from "~/styles/login.css";
 import ArrowSvg from "~/svg/arrowSvg";
 
@@ -8,6 +9,19 @@ export const links = () => [{ rel: "stylesheet", href: style }];
 const LogIn = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
+  const navigate = useNavigate();
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    fetch("http://localhost:8080/api/login", {
+      method: "Get",
+      credentials: "include",
+    }).then((res) => {
+      if (res.status === StatusCodes.OK) {
+        navigate("/game");
+      }
+    });
+  }, []);
 
   const handleFetchLogin = () => {
     fetch("http://localhost:8080/api/login", {
@@ -21,8 +35,11 @@ const LogIn = () => {
         password: passwordRef.current.value,
       }),
     }).then((res) => {
-      console.log(res.status);
-      res.json().then((data) => console.log(data));
+      if (res.status === StatusCodes.OK) {
+        navigate("/game");
+      } else {
+        res.json().then((data) => setData(data));
+      }
     });
   };
 
@@ -52,8 +69,11 @@ const LogIn = () => {
                   type="password"
                   ref={passwordRef}
                 />
+                {data?.errors?.login ? (
+                  <p className="input-error">{data.errors.login}</p>
+                ) : null}
               </div>
-              <div className="flex justify-between w-[530px]">
+              <div className="flex justify-between w-[530px] mt-[30px]">
                 <Link className="eurostyle link-to" to={"/signin"}>
                   create an account!
                 </Link>
