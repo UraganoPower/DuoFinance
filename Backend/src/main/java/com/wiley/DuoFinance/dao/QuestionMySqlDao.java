@@ -68,7 +68,9 @@ public class QuestionMySqlDao implements QuestionDao {
         You need to update all the value (questionText, choiceA, choiceB, choiceC, answer)
         for the question with the questionId.
          */
-
+        String query = "UPDATE question SET questionText = ?, choiceA = ?, choiceB = ?, choiceC = ?," +
+                "answer = ?, WHERE questionId = ?";
+        PreparedStatement ps =
 
     }
 }
