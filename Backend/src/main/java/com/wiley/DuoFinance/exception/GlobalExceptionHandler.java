@@ -1,11 +1,8 @@
 package com.wiley.DuoFinance.exception;
 
 
-import com.wiley.DuoFinance.model.Question;
 import com.wiley.DuoFinance.util.JsonGenerator;
-import com.wiley.DuoFinance.validation.CredentialsValidator;
 import com.wiley.DuoFinance.validation.QuestionValidator;
-import com.wiley.DuoFinance.validation.UserValidator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MissingRequestHeaderException;
@@ -96,5 +93,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.FORBIDDEN)
                 .body(JsonGenerator.formatSingleError("question", "The question cannot be deleted because it has already been used."));
+    }
+
+    @ExceptionHandler(InvalidAnswersFormatException.class)
+    public ResponseEntity<?> handleInvalidAnswersFormatException(InvalidAnswersFormatException ex) {
+
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(JsonGenerator.formatSingleError("answers", "You need to submit all three answers with the question ID."));
     }
 }
