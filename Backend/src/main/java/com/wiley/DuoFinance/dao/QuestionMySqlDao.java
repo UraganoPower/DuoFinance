@@ -61,11 +61,10 @@ public class QuestionMySqlDao implements QuestionDao {
     @Override
     public void updateQuestion(Question question) {
         
-        String query = "UPDATE question SET questionText = ?, choiceA = ?, choiceB = ?, choiceC = ?," +
-                "answer = ?, WHERE questionId = ?";
+        String query = "update question set questionText = ?, choiceA = ?, choiceB = ?, choiceC = ?, answer = ? " +
+                "where questionId = ?";
 
         jdbcTemplate.update(query, question.getQuestionText(), question.getChoiceA(), question.getChoiceB(), question.getChoiceC(),
                 question.getAnswer(), question.getQuestionId());
-
     }
 }

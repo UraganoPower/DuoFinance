@@ -57,7 +57,7 @@ public class QuestionController {
                 .body(newQuestion);
     }
 
-    @PutMapping("question")
+    @PutMapping("/question")
     public ResponseEntity<?> updateQuestion(HttpServletRequest request, @RequestBody Question question) throws CannotLoginException, AdminRoleRequiredException, InvalidQuestionException {
 
         String userIdHash = Session.getHash(request);
