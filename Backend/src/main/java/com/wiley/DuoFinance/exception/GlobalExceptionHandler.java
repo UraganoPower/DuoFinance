@@ -80,4 +80,12 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(errors);
     }
+
+    @ExceptionHandler(NoQuestionAvailableException.class)
+    public ResponseEntity<?> handleNoQuestionAvailableException(NoQuestionAvailableException ex) {
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(JsonGenerator.formatSingleError("questions", "The database contains no questions."));
+    }
 }

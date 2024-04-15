@@ -1,8 +1,6 @@
 package com.wiley.DuoFinance.controller;
 
-import com.wiley.DuoFinance.exception.AdminRoleRequiredException;
-import com.wiley.DuoFinance.exception.CannotLoginException;
-import com.wiley.DuoFinance.exception.InvalidQuestionException;
+import com.wiley.DuoFinance.exception.*;
 import com.wiley.DuoFinance.model.Question;
 import com.wiley.DuoFinance.security.Session;
 import com.wiley.DuoFinance.service.LoginService;
@@ -12,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -23,6 +23,22 @@ public class QuestionController {
 
     @Autowired
     QuestionService questionService;
+
+    @GetMapping("/random-questions")
+    public ResponseEntity<?> getRandomQuestions(HttpServletRequest request) throws CannotLoginException, BasicRoleRequiredException, NoQuestionAvailableException {
+
+        List<Question> randomQuestions;
+
+        String userIdHash = Session.getHash(request);
+
+        loginService.confirmBasicStatus(userIdHash);
+
+        randomQuestions = questionService.getRandomQuestions();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(randomQuestions);
+    }
 
     @PostMapping("/question")
     public ResponseEntity<?> addQuestion(HttpServletRequest request, @RequestBody Question question) throws CannotLoginException, AdminRoleRequiredException, InvalidQuestionException {
