@@ -5,6 +5,8 @@ import Question from "../components/question";
 import { useEffect, useRef, useState } from "react";
 import PlayButton from "../components/PlayButton";
 import { Button } from "@nextui-org/button";
+import { useNavigate } from "@remix-run/react";
+import { StatusCodes } from "http-status-codes";
 
 export const links = () => [
   { rel: "stylesheet", href: gameStyle },
@@ -12,6 +14,12 @@ export const links = () => [
 ];
 
 let questionsForBack = [];
+const IMG_LINK = [
+  { src: "image/Men.png", alt: "Men", class: "img-men" },
+  { src: "image/Question1.png", class: "img-question-1" },
+  { src: "image/Question2.png", class: "img-question-2" },
+  { src: "image/Question3.png", class: "img-question-3" },
+];
 const Game = () => {
   const sheetRef = useRef(null);
   const [isGameRunning, setIsGameRunning] = useState(false);
@@ -19,6 +27,20 @@ const Game = () => {
     questionText: "Are you ready for the super Duo Finance?",
   });
   const [questions, setQuestions] = useState([]);
+  const [questionCounter, setQuestionCounter] = useState(0);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch("http://localhost:8080/api/login", {
+      method: "Get",
+      credentials: "include",
+    }).then((res) => {
+      console.log(" status", res.status);
+      if (res.status !== StatusCodes.OK) {
+        navigate("/login");
+      }
+    });
+  }, []);
 
   const fetchQuestions = async () => {
     try {
@@ -46,6 +68,7 @@ const Game = () => {
 
     questionsForBack = [...questionsForBack, questionToSend];
     setCurrentQuestion(questions.pop());
+    setQuestionCounter(questionCounter + 1);
 
     if (questions.length == 0) {
       //send to backend
@@ -58,6 +81,7 @@ const Game = () => {
   const sendValidationToBackEnd = async () => {
     //fetch
     try {
+      setQuestionCounter(0);
       const res = await fetch("http://localhost:8080/api/submit", {
         method: "POST",
         credentials: "include",
@@ -82,6 +106,7 @@ const Game = () => {
 
   const handleStartGame = async () => {
     //load questions
+    setQuestionCounter(questionCounter + 1);
     const data = await fetchQuestions();
     setCurrentQuestion(data[0]);
     setQuestions(data);
@@ -114,7 +139,7 @@ const Game = () => {
                   "Question"
                 ) : (
                   <>
-                    {`Question ${questionsForBack.length + 1}`}
+                    {`Question ${questionCounter}`}
                     <span className="noto text-[20px]">/3</span>
                   </>
                 )}
@@ -158,7 +183,14 @@ const Game = () => {
               )}
             </div>
           </div>
-          <img className="ml-[30px] h-[468px]" src="/image/Men.png"></img>
+          <div className="border-show-men">
+            <div className="bg-show-man">
+              <img
+                className={`absolute ${IMG_LINK[questionCounter].class}`}
+                src={`${IMG_LINK[questionCounter].src}`}
+              ></img>
+            </div>
+          </div>
         </div>
       </section>
       <div ref={sheetRef} className="sheet collapsed">
