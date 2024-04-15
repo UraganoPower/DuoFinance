@@ -10,9 +10,9 @@ export const links = () => [
   { rel: "stylesheet", href: CRT_STYLE },
 ];
 
+let questionsForBack = [];
 const Game = () => {
   const [isGameRunning, setIsGameRunning] = useState(false);
-  const [loadingQuestions, setLoadingQuestions] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState({
     questionText: "Are you ready for the super Duo Finance?",
   });
@@ -28,17 +28,39 @@ const Game = () => {
   };
 
   useEffect(() => {
-    console.log("questions : ", questions);
-    console.log("currentQuestion : ", currentQuestion);
+    // console.log("questions : ", questions);
+    // console.log("currentQuestion : ", currentQuestion);
   }, [questions, currentQuestion]);
+
+  const nextQuestion = (answer) => {
+    const questionToSend = { id: currentQuestion.id, answer: answer };
+    questionsForBack = [...questionsForBack, questionToSend];
+    setCurrentQuestion(questions.pop());
+
+    if (questions.length == 0) {
+      //send to backend
+      sendValidationToBackEnd();
+      setIsGameRunning(false);
+      return;
+    }
+  };
+
+  const sendValidationToBackEnd = () => {
+    console.log("questionsForBack : ", questionsForBack);
+    //fetch
+
+    //reset ansewer
+    questionsForBack = [];
+    setCurrentQuestion({
+      questionText: "Are you ready for another super Duo Finance?",
+    });
+  };
 
   const handleStartGame = async () => {
     //load questions
-
-    setLoadingQuestions(true);
     const data = await fetchQuestions();
-    setQuestions(data);
     setCurrentQuestion(data[0]);
+    setQuestions(data);
 
     //start game
     setIsGameRunning(true);
@@ -59,7 +81,16 @@ const Game = () => {
         <div className="main-game-wrapper">
           <div className="flex flex-col">
             <div className="question-border-printer">
-              <span className="question-counter noto">Question</span>
+              <span className="question-counter noto">
+                {!isGameRunning ? (
+                  "Question"
+                ) : (
+                  <>
+                    {`Question ${questionsForBack.length + 1}`}
+                    <span className="noto text-[20px]">/3</span>
+                  </>
+                )}
+              </span>
             </div>
             <div className="question-printer">
               <Question className="noto text-[30px] leading-[50px] select-none scrollable overflow-y-auto h-[280px] w-[490px] block">
@@ -80,17 +111,23 @@ const Game = () => {
                     <Answer
                       text={currentQuestion.choiceA}
                       letterIndex="A"
-                      onClick={() => {}}
+                      onClick={() => {
+                        nextQuestion(currentQuestion.choiceA);
+                      }}
                     />
                     <Answer
                       text={currentQuestion.choiceB}
                       letterIndex="B"
-                      onClick={() => {}}
+                      onClick={() => {
+                        nextQuestion(currentQuestion.choiceB);
+                      }}
                     />
                     <Answer
                       text={currentQuestion.choiceC}
                       letterIndex="C"
-                      onClick={() => {}}
+                      onClick={() => {
+                        nextQuestion(currentQuestion.choiceC);
+                      }}
                     />
                   </div>
                 </>
