@@ -1,5 +1,6 @@
 package com.wiley.DuoFinance.dao;
 
+import com.wiley.DuoFinance.exception.QuestionUsedException;
 import com.wiley.DuoFinance.mapper.QuestionMapper;
 import com.wiley.DuoFinance.model.Question;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,5 +67,27 @@ public class QuestionMySqlDao implements QuestionDao {
 
         jdbcTemplate.update(query, question.getQuestionText(), question.getChoiceA(), question.getChoiceB(), question.getChoiceC(),
                 question.getAnswer(), question.getQuestionId());
+    }
+
+    @Override
+    public void deleteQuestionById(int questionId) throws QuestionUsedException {
+
+        String query = "delete from question where questionId = ?";
+
+        if(!isQuestionUsed(questionId)) {
+            jdbcTemplate.update(query, questionId);
+        } else {
+            throw new QuestionUsedException();
+        }
+    }
+
+    private boolean isQuestionUsed(int questionId) {
+
+        int count;
+        String query = "select count(*) from game_question where questionId = ?";
+
+        count = jdbcTemplate.queryForObject(query, Integer.class, questionId);
+
+        return count != 0;
     }
 }

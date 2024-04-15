@@ -3,6 +3,7 @@ package com.wiley.DuoFinance.service;
 import com.wiley.DuoFinance.dao.QuestionDao;
 import com.wiley.DuoFinance.exception.InvalidQuestionException;
 import com.wiley.DuoFinance.exception.NoQuestionAvailableException;
+import com.wiley.DuoFinance.exception.QuestionUsedException;
 import com.wiley.DuoFinance.model.Question;
 import com.wiley.DuoFinance.validation.QuestionValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +51,10 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public void updateQuestion(Question question) {
         questionDao.updateQuestion(question);
+    }
+
+    @Override
+    public void deleteQuestionById(int questionId) throws QuestionUsedException {
+        questionDao.deleteQuestionById(questionId);
     }
 }

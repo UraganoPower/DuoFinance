@@ -72,4 +72,18 @@ public class QuestionController {
                 .build();
     }
 
+    @DeleteMapping("/question/{questionId}")
+    public ResponseEntity<?> deleteQuestionById(HttpServletRequest request, @PathVariable int questionId) throws CannotLoginException, AdminRoleRequiredException, QuestionUsedException {
+
+        String userIdHash = Session.getHash(request);
+
+        loginService.confirmAdminStatus(userIdHash);
+
+        questionService.deleteQuestionById(questionId);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.wiley.DuoFinance.exception;
 
 
+import com.wiley.DuoFinance.model.Question;
 import com.wiley.DuoFinance.util.JsonGenerator;
 import com.wiley.DuoFinance.validation.CredentialsValidator;
 import com.wiley.DuoFinance.validation.QuestionValidator;
@@ -87,5 +88,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(JsonGenerator.formatSingleError("questions", "The database contains no questions."));
+    }
+
+    @ExceptionHandler(QuestionUsedException.class)
+    public ResponseEntity<?> handleQuestionUsedException(QuestionUsedException ex) {
+
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(JsonGenerator.formatSingleError("question", "The question cannot be deleted because it has already been used."));
     }
 }
