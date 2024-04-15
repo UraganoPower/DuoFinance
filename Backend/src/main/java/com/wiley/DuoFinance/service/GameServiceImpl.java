@@ -1,6 +1,7 @@
 package com.wiley.DuoFinance.service;
 
 import com.wiley.DuoFinance.dao.GameDao;
+import com.wiley.DuoFinance.exception.CannotLoginException;
 import com.wiley.DuoFinance.exception.InvalidAnswersFormatException;
 import com.wiley.DuoFinance.model.Answer;
 import com.wiley.DuoFinance.validation.AnswersValidator;
@@ -11,6 +12,9 @@ import java.util.List;
 
 @Service
 public class GameServiceImpl implements GameService {
+
+    @Autowired
+    UserService userService;
 
     @Autowired
     GameDao gameDao;
@@ -37,5 +41,16 @@ public class GameServiceImpl implements GameService {
         }
 
         return result;
+    }
+
+    @Override
+    public void addGame(String userIdHash, int result) throws CannotLoginException {
+
+        int userId;
+
+        userId = userService.decryptUserId(userIdHash);
+
+        gameDao.addGame(userId, result);
+
     }
 }

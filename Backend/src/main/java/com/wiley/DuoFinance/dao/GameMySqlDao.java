@@ -21,4 +21,12 @@ public class GameMySqlDao implements GameDao {
 
         return count != 0;
     }
+
+    @Override
+    public void addGame(int userId, int result) {
+
+        String query = "insert into game (score, userId) values (?, ?)";
+
+        jdbcTemplate.update(query, result, userId);
+    }
 }

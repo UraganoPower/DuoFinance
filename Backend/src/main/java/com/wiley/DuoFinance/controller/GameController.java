@@ -7,6 +7,7 @@ import com.wiley.DuoFinance.model.Answer;
 import com.wiley.DuoFinance.security.Session;
 import com.wiley.DuoFinance.service.GameService;
 import com.wiley.DuoFinance.service.LoginService;
+import com.wiley.DuoFinance.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,10 +35,9 @@ public class GameController {
         String userIdHash = Session.getHash(request);
 
         loginService.confirmBasicStatus(userIdHash);
-
         gameService.validateAnswersFormat(answers);
-
         result = gameService.calculateResult(answers);
+        gameService.addGame(userIdHash, result);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

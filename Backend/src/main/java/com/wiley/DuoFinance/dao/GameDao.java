@@ -6,4 +6,5 @@ public interface GameDao {
 
     boolean isValidateAnswer(Answer answer);
 
+    void addGame(int userId, int result);
 }
