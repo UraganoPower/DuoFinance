@@ -64,4 +64,21 @@ public class GameServiceImpl implements GameService {
 
         return gameDao.getAllGameByUserId(userId);
     }
+
+    @Override
+    public Double getAverageByUserId(String userIdHash) throws CannotLoginException {
+
+        Double average;
+        int userId;
+
+        userId = userService.decryptUserId(userIdHash);
+
+        average = gameDao.getAverageByUserId(userId);
+
+        if(average == null) {
+            average = 0.0;
+        }
+
+        return average;
+    }
 }

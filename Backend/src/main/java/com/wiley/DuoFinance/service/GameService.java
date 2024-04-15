@@ -15,4 +15,6 @@ public interface GameService {
     void addGame(String userIdHash, int result) throws CannotLoginException;
 
     List<Game> getAllGameByUserId(String userIdHash) throws CannotLoginException;
+
+    Double getAverageByUserId(String userIdHash) throws CannotLoginException;
 }

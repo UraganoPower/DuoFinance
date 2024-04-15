@@ -60,4 +60,20 @@ public class GameController {
                 .status(HttpStatus.OK)
                 .body(games);
     }
+
+    @GetMapping("/game/average")
+    public ResponseEntity<?> getAverageByUserId(HttpServletRequest request) throws CannotLoginException, BasicRoleRequiredException {
+
+        Double average;
+
+        String userIdHash = Session.getHash(request);
+
+        loginService.confirmBasicStatus(userIdHash);
+
+        average = gameService.getAverageByUserId(userIdHash);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(average);
+    }
 }

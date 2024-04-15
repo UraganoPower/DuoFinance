@@ -12,4 +12,6 @@ public interface GameDao {
     void addGame(int userId, int result);
 
     List<Game> getAllGameByUserId(int userId);
+
+    Double getAverageByUserId(int userId);
 }

@@ -44,4 +44,15 @@ public class GameMySqlDao implements GameDao {
 
         return games;
     }
+
+    @Override
+    public Double getAverageByUserId(int userId) {
+
+        Double average;
+        String query = "select avg(score) from game where userId = ?";
+
+        average = jdbcTemplate.queryForObject(query, Double.class, userId);
+
+        return average;
+    }
 }
