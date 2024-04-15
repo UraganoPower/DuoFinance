@@ -32,27 +32,43 @@ const Game = () => {
     // console.log("currentQuestion : ", currentQuestion);
   }, [questions, currentQuestion]);
 
-  const nextQuestion = (answer) => {
-    const questionToSend = { id: currentQuestion.id, answer: answer };
+  const nextQuestion = async (answer) => {
+    const questionToSend = {
+      questionId: currentQuestion.questionId,
+      answer: answer,
+    };
+
+    console.log("questionToSend : ", questionToSend);
     questionsForBack = [...questionsForBack, questionToSend];
     setCurrentQuestion(questions.pop());
 
     if (questions.length == 0) {
       //send to backend
-      sendValidationToBackEnd();
+      await sendValidationToBackEnd();
       setIsGameRunning(false);
       return;
     }
   };
 
-  const sendValidationToBackEnd = () => {
+  const sendValidationToBackEnd = async () => {
     console.log("questionsForBack : ", questionsForBack);
     //fetch
+    console.log(JSON.stringify(questionsForBack));
+    const res = await fetch("http://localhost:8080/api/submit", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(questionsForBack),
+    });
+    const howManyGood = await res.json();
+    console.log("howManyGood : ", howManyGood);
 
     //reset ansewer
     questionsForBack = [];
     setCurrentQuestion({
-      questionText: "Are you ready for another super Duo Finance?",
+      questionText: `Nice ${howManyGood} out of 3. Are you ready for another super Duo Finance?`,
     });
   };
 
