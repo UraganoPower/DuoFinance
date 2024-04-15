@@ -20,4 +20,6 @@ public interface QuestionService {
     void deleteQuestionById(int questionId) throws QuestionUsedException;
 
     List<Question> getAllQuestions() throws NoQuestionAvailableException;
+
+    List<Question> searchByKeyword(String keyword);
 }
