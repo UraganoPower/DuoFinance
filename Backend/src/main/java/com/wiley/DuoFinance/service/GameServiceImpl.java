@@ -4,6 +4,7 @@ import com.wiley.DuoFinance.dao.GameDao;
 import com.wiley.DuoFinance.exception.CannotLoginException;
 import com.wiley.DuoFinance.exception.InvalidAnswersFormatException;
 import com.wiley.DuoFinance.model.Answer;
+import com.wiley.DuoFinance.model.Game;
 import com.wiley.DuoFinance.validation.AnswersValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,5 +53,15 @@ public class GameServiceImpl implements GameService {
 
         gameDao.addGame(userId, result);
 
+    }
+
+    @Override
+    public List<Game> getAllGameByUserId(String userIdHash) throws CannotLoginException {
+
+        int userId;
+
+        userId = userService.decryptUserId(userIdHash);
+
+        return gameDao.getAllGameByUserId(userId);
     }
 }

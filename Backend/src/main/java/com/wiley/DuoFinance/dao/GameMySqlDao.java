@@ -1,9 +1,13 @@
 package com.wiley.DuoFinance.dao;
 
+import com.wiley.DuoFinance.mapper.GameMapper;
 import com.wiley.DuoFinance.model.Answer;
+import com.wiley.DuoFinance.model.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class GameMySqlDao implements GameDao {
@@ -28,5 +32,16 @@ public class GameMySqlDao implements GameDao {
         String query = "insert into game (score, userId) values (?, ?)";
 
         jdbcTemplate.update(query, result, userId);
+    }
+
+    @Override
+    public List<Game> getAllGameByUserId(int userId) {
+
+        List<Game> games;
+        String query = "select * from game where userId = ? order by gameId asc";
+
+        games = jdbcTemplate.query(query, new GameMapper(), userId);
+
+        return games;
     }
 }

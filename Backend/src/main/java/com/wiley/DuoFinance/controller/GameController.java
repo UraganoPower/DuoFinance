@@ -4,6 +4,7 @@ import com.wiley.DuoFinance.exception.BasicRoleRequiredException;
 import com.wiley.DuoFinance.exception.CannotLoginException;
 import com.wiley.DuoFinance.exception.InvalidAnswersFormatException;
 import com.wiley.DuoFinance.model.Answer;
+import com.wiley.DuoFinance.model.Game;
 import com.wiley.DuoFinance.security.Session;
 import com.wiley.DuoFinance.service.GameService;
 import com.wiley.DuoFinance.service.LoginService;
@@ -44,6 +45,19 @@ public class GameController {
                 .body(result);
     }
 
+    @GetMapping("/game")
+    public ResponseEntity<?> getAllGamesByUserId(HttpServletRequest request) throws CannotLoginException, BasicRoleRequiredException {
 
+        List<Game> games;
 
+        String userIdHash = Session.getHash(request);
+
+        loginService.confirmBasicStatus(userIdHash);
+
+        games = gameService.getAllGameByUserId(userIdHash);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(games);
+    }
 }
