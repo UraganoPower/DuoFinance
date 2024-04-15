@@ -102,4 +102,21 @@ public class QuestionController {
                 .build();
     }
 
+    @PostMapping("/question/search/{keyword}")
+    public ResponseEntity<?> searchQuestion(HttpServletRequest request, @PathVariable String keyword) throws CannotLoginException, AdminRoleRequiredException {
+
+        List<Question> questions;
+
+        String userIdHash = Session.getHash(request);
+
+        loginService.confirmAdminStatus(userIdHash);
+
+        questions = questionService.searchByKeyword(keyword);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(questions);
+    }
+
+
 }
