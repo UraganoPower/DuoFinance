@@ -14,4 +14,6 @@ public interface QuestionDao {
     void updateQuestion(Question question);
 
     void deleteQuestionById(int questionId) throws QuestionUsedException;
+
+    List<Question> getAllQuestions();
 }

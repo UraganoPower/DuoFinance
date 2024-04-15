@@ -49,6 +49,20 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    public List<Question> getAllQuestions() throws NoQuestionAvailableException {
+
+        List<Question> questions;
+
+        questions = questionDao.getAllQuestions();
+
+        if(questions.isEmpty()) {
+            throw new NoQuestionAvailableException();
+        }
+
+        return questions;
+    }
+
+    @Override
     public void updateQuestion(Question question) {
         questionDao.updateQuestion(question);
     }
