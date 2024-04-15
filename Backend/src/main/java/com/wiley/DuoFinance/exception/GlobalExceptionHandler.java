@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
 
         Map<String, Object> errors = new HashMap<>();
 
-        errors.put("errors", UserValidator.getErrors());
+        errors.put("errors", ex.getErrors());
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
@@ -79,5 +79,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(errors);
+    }
+
+    @ExceptionHandler(NoQuestionAvailableException.class)
+    public ResponseEntity<?> handleNoQuestionAvailableException(NoQuestionAvailableException ex) {
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(JsonGenerator.formatSingleError("questions", "The database contains no questions."));
     }
 }

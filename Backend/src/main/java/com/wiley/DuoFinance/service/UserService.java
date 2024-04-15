@@ -19,4 +19,8 @@ public interface UserService {
     String encryptUserId(int userId) throws Exception;
 
     void deleteUserById(int userId);
+
+    void validateUserUpdate(User user) throws InvalidUserException;
+
+    void updateUser(int userId, User user);
 }

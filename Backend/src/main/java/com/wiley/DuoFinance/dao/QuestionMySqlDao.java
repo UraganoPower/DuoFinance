@@ -1,5 +1,6 @@
 package com.wiley.DuoFinance.dao;
 
+import com.wiley.DuoFinance.mapper.QuestionMapper;
 import com.wiley.DuoFinance.model.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.List;
 
 @Repository
 public class QuestionMySqlDao implements QuestionDao {
@@ -43,5 +45,30 @@ public class QuestionMySqlDao implements QuestionDao {
         question.setQuestionId(keyHolder.getKey().intValue());
 
         return question;
+    }
+
+    @Override
+    public List<Question> getRandomQuestions() {
+
+        List<Question> randomQuestions;
+        String query = "select * from question order by rand() limit 3";
+
+        randomQuestions = jdbcTemplate.query(query, new QuestionMapper());
+
+        return randomQuestions;
+    }
+
+    @Override
+    public void updateQuestion(Question question) {
+
+        // Add you code here...
+
+        /*
+        You will receive a question contain all the parameters
+        You need to update all the value (questionText, choiceA, choiceB, choiceC, answer)
+        for the question with the questionId.
+         */
+
+
     }
 }
