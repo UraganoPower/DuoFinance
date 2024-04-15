@@ -19,12 +19,16 @@ const Game = () => {
   const [questions, setQuestions] = useState([]);
 
   const fetchQuestions = async () => {
-    const res = await fetch("http://localhost:8080/api/random-questions", {
-      method: "GET",
-      credentials: "include",
-    });
-    const data = await res.json();
-    return data;
+    try {
+      const res = await fetch("http://localhost:8080/api/random-questions", {
+        method: "GET",
+        credentials: "include",
+      });
+      const data = await res.json();
+      return data;
+    } catch (e) {
+      throw new Error("Cant fetch questions for some reason");
+    }
   };
 
   useEffect(() => {
@@ -38,7 +42,6 @@ const Game = () => {
       answer: answer,
     };
 
-    console.log("questionToSend : ", questionToSend);
     questionsForBack = [...questionsForBack, questionToSend];
     setCurrentQuestion(questions.pop());
 
@@ -51,25 +54,28 @@ const Game = () => {
   };
 
   const sendValidationToBackEnd = async () => {
-    console.log("questionsForBack : ", questionsForBack);
     //fetch
-    console.log(JSON.stringify(questionsForBack));
-    const res = await fetch("http://localhost:8080/api/submit", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(questionsForBack),
-    });
-    const howManyGood = await res.json();
-    console.log("howManyGood : ", howManyGood);
+    try {
+      const res = await fetch("http://localhost:8080/api/submit", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(questionsForBack),
+      });
+      const howManyGood = await res.json();
 
-    //reset ansewer
-    questionsForBack = [];
-    setCurrentQuestion({
-      questionText: `Nice ${howManyGood} out of 3. Are you ready for another super Duo Finance?`,
-    });
+      //reset ansewer
+      questionsForBack = [];
+      setCurrentQuestion({
+        questionText: `Nice ${howManyGood} out of 3. Are you ready for another super Duo Finance?`,
+      });
+    } catch (e) {
+      throw new Error(
+        "Cant send questions for some reason inside sendValidationToBackEnd"
+      );
+    }
   };
 
   const handleStartGame = async () => {
@@ -115,11 +121,7 @@ const Game = () => {
             </div>
             <div className="answer-printer">
               {!isGameRunning ? (
-                <PlayButton
-                  onClick={async () => {
-                    await handleStartGame(), console.log(questions);
-                  }}
-                />
+                <PlayButton onClick={handleStartGame} />
               ) : (
                 <>
                   <h4 className="noto text-[20px] mb-[20px]">Select Answer</h4>
