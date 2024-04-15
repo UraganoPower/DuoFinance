@@ -60,6 +60,17 @@ public class QuestionMySqlDao implements QuestionDao {
     }
 
     @Override
+    public List<Question> getAllQuestions() {
+
+        List<Question> questions;
+        String query = "select * from question";
+
+        questions = jdbcTemplate.query(query, new QuestionMapper());
+
+        return questions;
+    }
+
+    @Override
     public void updateQuestion(Question question) {
         
         String query = "update question set questionText = ?, choiceA = ?, choiceB = ?, choiceC = ?, answer = ? " +

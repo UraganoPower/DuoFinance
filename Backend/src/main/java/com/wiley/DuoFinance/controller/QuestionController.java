@@ -40,6 +40,22 @@ public class QuestionController {
                 .body(randomQuestions);
     }
 
+    @GetMapping("/question")
+    public ResponseEntity<?> getAllQuestions(HttpServletRequest request) throws CannotLoginException, AdminRoleRequiredException, NoQuestionAvailableException {
+
+        List<Question> questions;
+
+        String userIdHash = Session.getHash(request);
+
+        loginService.confirmAdminStatus(userIdHash);
+
+        questions = questionService.getAllQuestions();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(questions);
+    }
+
     @PostMapping("/question")
     public ResponseEntity<?> addQuestion(HttpServletRequest request, @RequestBody Question question) throws CannotLoginException, AdminRoleRequiredException, InvalidQuestionException {
 
