@@ -16,4 +16,5 @@ public interface QuestionDao {
     void deleteQuestionById(int questionId) throws QuestionUsedException;
 
     List<Question> getAllQuestions();
+    List<Question> searchByKeyWord(String keyWord);
 }

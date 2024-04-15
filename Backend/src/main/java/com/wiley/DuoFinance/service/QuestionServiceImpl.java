@@ -63,6 +63,12 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    public List<Question> searchByKeyWord(String keyWord) {
+        List<Question> questions;
+        return questions = questionDao.searchByKeyWord(keyWord);
+    }
+
+    @Override
     public void updateQuestion(Question question) {
         questionDao.updateQuestion(question);
     }
