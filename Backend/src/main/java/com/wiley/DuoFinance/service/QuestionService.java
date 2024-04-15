@@ -21,5 +21,5 @@ public interface QuestionService {
 
     List<Question> getAllQuestions() throws NoQuestionAvailableException;
 
-    List<Question> searchByKeyWord(String keyWord);
+    List<Question> searchByKeyword(String keyword);
 }

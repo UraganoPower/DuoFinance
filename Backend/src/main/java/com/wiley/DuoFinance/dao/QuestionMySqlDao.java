@@ -102,9 +102,9 @@ public class QuestionMySqlDao implements QuestionDao {
         return count != 0;
     }
 
-    //Search question by keyword using QuestionMapper()
-    public List<Question> searchByKeyWord(String keyWord){
-        String sql = "SELECT * FROM question WHERE questionText LIKE ? OR choiceA LIKE ? OR choiceB LIKE ? OR choiceC LIKE ?";
-        return jdbcTemplate.query(sql, new Object[]{"%" + keyWord + "%", "%" + keyWord + "%", "%" + keyWord + "%", "%" + keyWord + "%"}, new QuestionMapper());
+    public List<Question> searchByKeyword(String keyword){
+        String sql = "select * from question where questionText like ? or choiceA like ? or choiceB like ? or choiceC like ?";
+
+        return jdbcTemplate.query(sql, new Object[]{"%" + keyword + "%", "%" + keyword + "%", "%" + keyword + "%", "%" + keyword + "%"}, new QuestionMapper());
     }
 }
