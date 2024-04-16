@@ -40,7 +40,7 @@ public class UserDaoTest {
     @AfterEach
     public void tearDown() {
         // Delete the test user after each test
-        userDao.deleteUserById(testUserId);
+        jdbc.update("DELETE FROM user WHERE userId = ?", testUserId);
     }
     @Test
     @DisplayName("Test adding a user")

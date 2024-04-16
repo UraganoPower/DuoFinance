@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class LoginDaoTest {
 
     @Autowired
-    private LoginMySqlDao loginDao;
+    private LoginDao loginDao;
 
     @Autowired
     private JdbcTemplate jdbc;
