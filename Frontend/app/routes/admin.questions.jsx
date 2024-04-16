@@ -79,8 +79,8 @@ const QuestionsAdmin = () => {
         <TableBody>
           {questions.map((question, index) => (
             <TableRow key={`question-${index}`} className="table-row-admin">
-              <TableCell className="table-cell-admin">
-                {question.questionId}
+              <TableCell className="table-cell-admin ">
+                <span className="ml-[20px]">{question.questionId}</span>
               </TableCell>
               <TableCell className="table-cell-admin">
                 {question.questionText}

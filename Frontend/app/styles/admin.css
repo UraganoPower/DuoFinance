@@ -31,13 +31,13 @@ li {
   @apply px-[20px] py-[10px] m-[20px];
 
   /* bg */
-  @apply bg-blue-200;
+  @apply bg-gray-200;
 
   /* cursor */
   @apply cursor-pointer;
 
   /* border */
-  @apply border-1 border-gray-400 rounded-[10px];
+  @apply border-1  rounded-[10px];
 
   /* text */
   @apply text-[15px] text-text;
@@ -47,7 +47,7 @@ li {
 
 li:hover {
   /* bg */
-  @apply bg-blue-300;
+  @apply bg-gray-300;
 }
 
 .table-column-admin {
