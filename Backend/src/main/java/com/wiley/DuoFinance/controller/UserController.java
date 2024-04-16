@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:3000" ,methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.PUT}, allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:3000" ,methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.PUT, RequestMethod.DELETE}, allowCredentials = "true")
 public class UserController {
 
     @Autowired
@@ -79,7 +79,7 @@ public class UserController {
     }
 
     @DeleteMapping("/user")
-    public ResponseEntity<?> deleteUserById(HttpServletRequest request) throws CannotLoginException {
+    public ResponseEntity<?> deleteUserById(HttpServletRequest request, HttpServletResponse response) throws CannotLoginException {
 
 
         String userIdHash = Session.getHash(request);
@@ -89,7 +89,9 @@ public class UserController {
 
         userService.deleteUserById(userId);
 
-        //todo: create cookie to close
+        Cookie removeCookie = Session.remove();
+
+        response.addCookie(removeCookie);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

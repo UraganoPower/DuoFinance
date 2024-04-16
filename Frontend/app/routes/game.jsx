@@ -35,6 +35,7 @@ const Game = () => {
   const [user, setUser] = useState({});
   const renameRef = useRef();
   const [renameError, setRenameError] = useState(null);
+  const modal = useRef(null);
 
   useEffect(() => {
     fetch("http://localhost:8080/api/user", {
@@ -125,6 +126,26 @@ const Game = () => {
     sheetRef.current.classList.toggle("collapsed");
   };
 
+  const openModal = () => {
+    modal.current.showModal();
+  };
+
+  const closeModal = () => {
+    modal.current.close();
+  };
+
+  const deleteAccount = () => {
+    fetch("http://localhost:8080/api/user", {
+      method: "DELETE",
+      credentials: "include",
+    }).then((res) => {
+      console.log(res.status);
+      if (res.status === StatusCodes.OK) {
+        navigate("/login");
+      }
+    });
+  };
+
   const rename = () => {
     fetch("http://localhost:8080/api/user", {
       method: "PUT",
@@ -151,6 +172,27 @@ const Game = () => {
 
   return (
     <div className="screen scanlines">
+      <dialog ref={modal} className="modal">
+        <div className="flex flex-col">
+          <p className="noto modal-text text-white">
+            Are you sure you want to delete your account?
+          </p>
+          <div className="flex mt-[10px]">
+            <Button
+              onClick={closeModal}
+              className=" bg-primary text-white noto text-[18px] rounded-sm"
+            >
+              close
+            </Button>
+            <Button
+              onClick={deleteAccount}
+              className="ml-[20px] bg-red-500 text-white noto text-[18px] rounded-sm"
+            >
+              Delete
+            </Button>
+          </div>
+        </div>
+      </dialog>
       <section className="game-section">
         <nav className="game-navigation">
           <h1 className="noto game-nav-title ">Duo Finance</h1>
@@ -254,7 +296,10 @@ const Game = () => {
               placement="top"
               offset={-7}
             >
-              <Button className="ml-[20px] bg-red-500 text-white noto text-[18px] rounded-sm">
+              <Button
+                onClick={openModal}
+                className="ml-[20px] bg-red-500 text-white noto text-[18px] rounded-sm"
+              >
                 Delete
               </Button>
             </Tooltip>
