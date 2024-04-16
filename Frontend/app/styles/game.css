@@ -179,7 +179,13 @@
 }
 
 .sheet {
-  @apply absolute bottom-0 right-0 h-[100vh] w-[600px] bg-gradient-to-b from-primary to-secondary;
+  @apply absolute bottom-0 right-0 h-[100vh] w-[600px];
+
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(51, 50, 50, 1) 100%
+  );
 
   /* overflow */
   @apply overflow-x-hidden;
@@ -193,10 +199,10 @@
 
 .wrapper-sheet {
   /* perimeters */
-  @apply p-[20px] h-full w-max;
+  @apply p-[20px] h-full w-[600px];
 
   /* border */
-  @apply border-l-[2px] border-solid border-white;
+  @apply border-l-[5px] border-solid border-primary;
 }
 
 .border-show-men {

@@ -7,6 +7,9 @@ import PlayButton from "../components/PlayButton";
 import { Button } from "@nextui-org/button";
 import { useNavigate } from "@remix-run/react";
 import { StatusCodes } from "http-status-codes";
+import { Input as NextuiInput } from "@nextui-org/input";
+import { Tooltip } from "@nextui-org/tooltip";
+import XMark from "../svg/x-mark";
 
 export const links = () => [
   { rel: "stylesheet", href: gameStyle },
@@ -29,17 +32,25 @@ const Game = () => {
   const [questions, setQuestions] = useState([]);
   const [questionCounter, setQuestionCounter] = useState(0);
   const navigate = useNavigate();
+  const [user, setUser] = useState({});
+  const renameRef = useRef();
+  const [renameError, setRenameError] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/login", {
+    fetch("http://localhost:8080/api/user", {
       method: "Get",
       credentials: "include",
-    }).then((res) => {
-      console.log(" status", res.status);
-      if (res.status !== StatusCodes.OK) {
-        navigate("/login");
-      }
-    });
+    })
+      .then((res) => {
+        console.log(" status", res.status);
+        if (res.status !== StatusCodes.OK) {
+          navigate("/login");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setUser(data);
+      });
   }, []);
 
   const fetchQuestions = async () => {
@@ -54,11 +65,6 @@ const Game = () => {
       throw new Error("Cant fetch questions for some reason");
     }
   };
-
-  useEffect(() => {
-    // console.log("questions : ", questions);
-    // console.log("currentQuestion : ", currentQuestion);
-  }, [questions, currentQuestion]);
 
   const nextQuestion = async (answer) => {
     const questionToSend = {
@@ -119,15 +125,41 @@ const Game = () => {
     sheetRef.current.classList.toggle("collapsed");
   };
 
+  const rename = () => {
+    fetch("http://localhost:8080/api/user", {
+      method: "PUT",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: renameRef.current.value,
+      }),
+    }).then((res) => {
+      console.log(res.status);
+      if (res.status === StatusCodes.OK) {
+        setUser({
+          ...user,
+          username: renameRef.current.value,
+        });
+        setRenameError(null);
+      } else {
+        setRenameError("Cant rename user for some reason");
+      }
+    });
+  };
+
   return (
     <div className="screen scanlines">
       <section className="game-section">
         <nav className="game-navigation">
           <h1 className="noto game-nav-title ">Duo Finance</h1>
           <div className="flex items-center">
-            <span className="user-name noto">Bill_cipher</span>
+            <span className="user-name noto">{user.username}</span>
             <button onClick={toggleSheet} className="user-button">
-              <span className="initial noto">B</span>
+              <span className="initial noto">
+                {user?.username?.charAt(0).toUpperCase()}
+              </span>
             </button>
           </div>
         </nav>
@@ -195,10 +227,41 @@ const Game = () => {
       </section>
       <div ref={sheetRef} className="sheet collapsed">
         <div className="wrapper-sheet">
-          <h1 className="noto text-white text-[35px]"> Duo Finance Setings </h1>
-          <Button className="noto" onClick={toggleSheet}>
-            test
-          </Button>
+          <div className="flex justify-between items-center">
+            <h1 className="noto text-white text-[35px]">
+              {" "}
+              Duo Finance Setings{" "}
+            </h1>
+            <XMark className={"cursor-pointer"} onClick={toggleSheet}></XMark>
+          </div>
+          <NextuiInput
+            ref={renameRef}
+            className="mt-[40px] w-[400px]"
+            radius="none"
+            placeholder="Username if you want change"
+          ></NextuiInput>
+          <div className="flex mt-[20px] ">
+            <Button
+              onClick={rename}
+              className=" bg-primary text-white noto text-[18px] rounded-sm"
+            >
+              Save
+            </Button>
+            <Tooltip
+              showArrow={true}
+              className="p-[8px] noto text-[12px] bg-red-500 text-white"
+              content="Delete your account !"
+              placement="top"
+              offset={-7}
+            >
+              <Button className="ml-[20px] bg-red-500 text-white noto text-[18px] rounded-sm">
+                Delete
+              </Button>
+            </Tooltip>
+          </div>
+          {renameError ? (
+            <p className="europa text-red-400">{renameError}</p>
+          ) : null}
         </div>
       </div>
     </div>
