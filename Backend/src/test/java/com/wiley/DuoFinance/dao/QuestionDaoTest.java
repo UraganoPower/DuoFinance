@@ -26,7 +26,7 @@ public class QuestionDaoTest {
     private JdbcTemplate jdbc;
 
     @Autowired
-    private QuestionMySqlDao questionDao;
+    private QuestionDao questionDao;
 
     private Question testQuestion;
     private Question testQuestion1;
@@ -40,7 +40,7 @@ public class QuestionDaoTest {
         testQuestion.setChoiceA("choice A");
         testQuestion.setChoiceB("choice B");
         testQuestion.setChoiceC("choice C");
-        testQuestion.setAnswer("answer");
+        testQuestion.setAnswer("choice A");
         //Add the test question
         questionDao.addQuestion(testQuestion);
 
@@ -50,7 +50,7 @@ public class QuestionDaoTest {
         testQuestion1.setChoiceA("choice A");
         testQuestion1.setChoiceB("choice B");
         testQuestion1.setChoiceC("choice C");
-        testQuestion1.setAnswer("answer");
+        testQuestion1.setAnswer("choice B");
         //Add the test question
         questionDao.addQuestion(testQuestion1);
 
@@ -60,16 +60,14 @@ public class QuestionDaoTest {
         testQuestion2.setChoiceA("choice A");
         testQuestion2.setChoiceB("choice B");
         testQuestion2.setChoiceC("choice C");
-        testQuestion2.setAnswer("answer");
+        testQuestion2.setAnswer("choice C");
         //Add the test question
         questionDao.addQuestion(testQuestion2);
     }
 
     @AfterEach
     public void tearDown(){
-        jdbc.update("DELETE FROM question WHERE questionId = ?", testQuestion.getQuestionId());
-        jdbc.update("DELETE FROM question WHERE questionId = ?", testQuestion1.getQuestionId());
-        jdbc.update("DELETE FROM question WHERE questionId = ?", testQuestion2.getQuestionId());
+        jdbc.update("DELETE FROM question");
     }
 
     @Test
@@ -80,7 +78,7 @@ public class QuestionDaoTest {
         question.setChoiceA("choice A");
         question.setChoiceB("choice B");
         question.setChoiceC("choice C");
-        question.setAnswer("answer");
+        question.setAnswer("choice B");
         Question addedQuestion = questionDao.addQuestion(question);
         assertNotNull(addedQuestion.getQuestionId(), "Inserted question ID should not be null");
         jdbc.update("DELETE FROM question WHERE questionId = ?", question.getQuestionId());
@@ -111,7 +109,7 @@ public class QuestionDaoTest {
         question.setChoiceA("choice A");
         question.setChoiceB("choice B");
         question.setChoiceC("choice C");
-        question.setAnswer("answer");
+        question.setAnswer("choice A");
         Question addedQuestion = questionDao.addQuestion(question);
 
         // Delete the test question
