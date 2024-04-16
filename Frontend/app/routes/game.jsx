@@ -134,6 +134,18 @@ const Game = () => {
     modal.current.close();
   };
 
+  const logout = () => {
+    fetch("http://localhost:8080/api/logout", {
+      method: "POST",
+      credentials: "include",
+    }).then((res) => {
+      console.log(res.status);
+      if (res.status === StatusCodes.OK) {
+        navigate("/login");
+      }
+    });
+  };
+
   const deleteAccount = () => {
     fetch("http://localhost:8080/api/user", {
       method: "DELETE",
@@ -279,6 +291,21 @@ const Game = () => {
             </h1>
             <XMark className={"cursor-pointer"} onClick={toggleSheet}></XMark>
           </div>
+          <Tooltip
+            showArrow={true}
+            className="p-[9px] noto text-[12px] bg-secondary text-white"
+            content="From your account !"
+            placement="right"
+            offset={7}
+          >
+            <button
+              onClick={logout}
+              className="noto text-white hover:text-secondary transition-[.2s]"
+            >
+              logout
+            </button>
+          </Tooltip>
+
           <NextuiInput
             ref={renameRef}
             className="mt-[40px] w-[400px]"
@@ -310,6 +337,9 @@ const Game = () => {
           {renameError ? (
             <p className="europa text-red-400">{renameError}</p>
           ) : null}
+
+          <div className="h-[1px] w-full bg-white mt-[40px]"></div>
+          <h1 className="noto text-white text-[35px]">Your last games</h1>
         </div>
       </div>
     </div>
