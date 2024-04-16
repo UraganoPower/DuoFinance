@@ -177,6 +177,9 @@ const Game = () => {
           <p className="noto modal-text text-white">
             Are you sure you want to delete your account?
           </p>
+          <p className="noto modal-text text-red-500">
+            This action cannot be undone
+          </p>
           <div className="flex mt-[10px]">
             <Button
               onClick={closeModal}
