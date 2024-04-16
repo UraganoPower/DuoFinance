@@ -36,9 +36,25 @@ const LogIn = () => {
       }),
     }).then((res) => {
       if (res.status === StatusCodes.OK) {
-        navigate("/game");
+        fetch("http://localhost:8080/api/user", {
+          method: "GET",
+          credentials: "include",
+        }).then((res) => {
+          if (res.status !== StatusCodes.OK) {
+            throw new Error("Cant fetch user for some reason");
+          }
+
+          res.json().then((data) => {
+            if (data.roleId === 2) {
+              navigate("/game");
+            }
+            navigate("/admin");
+          });
+        });
       } else {
-        res.json().then((data) => setData(data));
+        res.json().then((data) => {
+          setData(data);
+        });
       }
     });
   };

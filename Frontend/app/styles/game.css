@@ -201,6 +201,9 @@
   /* perimeters */
   @apply p-[20px] h-full w-[600px];
 
+  /* display */
+  @apply flex flex-col;
+
   /* border */
   @apply border-l-[5px] border-solid border-primary;
 }

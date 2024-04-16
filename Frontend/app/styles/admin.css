@@ -1,0 +1,80 @@
+nav {
+  @apply h-[100vh] w-[300px];
+
+  /* display */
+  @apply flex flex-col;
+
+  /* border */
+  @apply border-r-2 border-black;
+}
+
+h1 {
+  /* text */
+  @apply text-[30px] select-none;
+}
+
+h2 {
+  /* text */
+  @apply text-[20px] select-none text-secondary;
+}
+
+.title {
+  /* perimeters */
+  @apply p-[20px];
+
+  /* border bottom */
+  @apply border-b-2 border-black;
+}
+
+li {
+  /* perimeters */
+  @apply px-[20px] py-[10px] m-[20px];
+
+  /* bg */
+  @apply bg-blue-200;
+
+  /* cursor */
+  @apply cursor-pointer;
+
+  /* border */
+  @apply border-1 border-gray-400 rounded-[10px];
+
+  /* text */
+  @apply text-[15px] text-text;
+
+  transition: 0.3s;
+}
+
+li:hover {
+  /* bg */
+  @apply bg-blue-300;
+}
+
+.table-column-admin {
+  /* bg */
+  @apply bg-primary;
+
+  /* text */
+  @apply text-white text-[15px];
+
+  /* perimeters */
+  @apply py-[20px];
+}
+
+.table-row-admin {
+  /* bg */
+  @apply bg-white;
+
+  /* perimeters */
+  @apply h-[100px];
+
+  /* border */
+  /* @apply border-b-1 border-gray-400 rounded-[10px]; */
+
+  transition: 0.5s;
+}
+
+.table-row-admin:hover {
+  /* bg */
+  @apply bg-gray-200;
+}

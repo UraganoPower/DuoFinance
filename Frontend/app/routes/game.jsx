@@ -36,6 +36,8 @@ const Game = () => {
   const renameRef = useRef();
   const [renameError, setRenameError] = useState(null);
   const modal = useRef(null);
+  const [gamesPlay, setGamePlay] = useState([]);
+  const [average, setAverage] = useState(0);
 
   useEffect(() => {
     fetch("http://localhost:8080/api/user", {
@@ -52,6 +54,9 @@ const Game = () => {
       .then((data) => {
         setUser(data);
       });
+
+    fetchGames();
+    fetchAverage();
   }, []);
 
   const fetchQuestions = async () => {
@@ -109,6 +114,8 @@ const Game = () => {
         "Cant send questions for some reason inside sendValidationToBackEnd"
       );
     }
+    fetchGames();
+    fetchAverage();
   };
 
   const handleStartGame = async () => {
@@ -156,6 +163,38 @@ const Game = () => {
         navigate("/login");
       }
     });
+  };
+
+  const fetchGames = () => {
+    fetch("http://localhost:8080/api/game", {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((res) => {
+        if (res.status !== StatusCodes.OK) {
+          throw new Error("Cant fetch games for some reason");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setGamePlay(data);
+      });
+  };
+
+  const fetchAverage = () => {
+    fetch("http://localhost:8080/api/game/average", {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((res) => {
+        if (res.status !== StatusCodes.OK) {
+          throw new Error("Cant fetch average for some reason");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setAverage(data);
+      });
   };
 
   const rename = () => {
@@ -300,7 +339,7 @@ const Game = () => {
           >
             <button
               onClick={logout}
-              className="noto text-white hover:text-secondary transition-[.2s]"
+              className="noto w-fit text-white hover:text-secondary transition-[.2s]"
             >
               logout
             </button>
@@ -338,8 +377,31 @@ const Game = () => {
             <p className="europa text-red-400">{renameError}</p>
           ) : null}
 
-          <div className="h-[1px] w-full bg-white mt-[40px]"></div>
-          <h1 className="noto text-white text-[35px]">Your last games</h1>
+          <div className="flex flex-col h-full overflow-hidden">
+            <div className="h-[1px] w-full bg-white mt-[40px]"></div>
+            <h1 className="noto text-white text-[35px] mb-[20px]">
+              Your last games
+            </h1>
+            <div className="flex mb-[20px] ">
+              <span className="mr-[10px] text-[20px]  noto">Game id</span>
+              <span className="text-[20px] ml-[50px]  noto">Score</span>
+              <span className="text-[20px] ml-[50px]  noto">
+                Average : {average} / 3
+              </span>
+            </div>
+            <div className="h-full w-full  overflow-y-auto  removeScrollBar">
+              {gamesPlay.map((game, i) => (
+                <div key={`game-${i}`} className="mb-[20px] flex items-center">
+                  <div className="ml-[15px] select-none h-[40px] w-[40px] noto text-[20px] rounded-full flex justify-center items-center bg-primary">
+                    {game.gameId}
+                  </div>
+                  <div className="ml-[85px] noto text-[20px]">
+                    {game.score} / 3
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>
