@@ -18,7 +18,22 @@ const LogIn = () => {
       credentials: "include",
     }).then((res) => {
       if (res.status === StatusCodes.OK) {
-        navigate("/game");
+        fetch("http://localhost:8080/api/user", {
+          method: "GET",
+          credentials: "include",
+        }).then((res) => {
+          if (res.status !== StatusCodes.OK) {
+            throw new Error("Cant fetch user for some reason");
+          }
+          res.json().then((data) => {
+            console.log(data);
+            if (data.roleId == 2) {
+              navigate("/game");
+            } else {
+              navigate("/admin");
+            }
+          });
+        });
       }
     });
   }, []);
@@ -45,10 +60,13 @@ const LogIn = () => {
           }
 
           res.json().then((data) => {
-            if (data.roleId === 2) {
+            console.log(data);
+            if (data.roleId == 2) {
+              console.log("cool");
               navigate("/game");
+            } else {
+              navigate("/admin");
             }
-            navigate("/admin");
           });
         });
       } else {
