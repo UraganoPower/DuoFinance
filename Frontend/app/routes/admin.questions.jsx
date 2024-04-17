@@ -23,6 +23,7 @@ const QuestionsAdmin = () => {
   const choiceARef = useRef();
   const choiceBRef = useRef();
   const choiceCRef = useRef();
+  const searhRef = useRef();
 
   const openModal = (id, question, answer, choiceA, choiceB, choiceC) => {
     setIdState(id);
@@ -98,8 +99,28 @@ const QuestionsAdmin = () => {
       });
   };
 
+  const searchQuestion = () => {
+    fetch(
+      `http://localhost:8080/api/question/search/${searhRef.current.value}`,
+      {
+        method: "Post",
+        credentials: "include",
+      }
+    )
+      .then((res) => {
+        if (res.status !== StatusCodes.OK) {
+          throw new Error("Cant search questions for some reason");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setQuestions(data);
+      });
+  };
+
   return (
-    <div className="flex justify-center w-full px-[50px] overflow-auto removeScrollBar">
+    <div className="flex flex-col  w-full px-[50px] overflow-auto removeScrollBar">
       <dialog ref={modalRef} className="modal ">
         <h1 className="europa text-[30px]">Edit Questions</h1>
         <div className="flex flex-col mt-[20px]">
@@ -126,7 +147,19 @@ const QuestionsAdmin = () => {
           </Button>
         </div>
       </dialog>
-      <Table className="mt-[50px] border-spacing-y-[20px]">
+      <div className="flex mt-[20px]">
+        <input ref={searhRef} className="input-admin" type="text"></input>
+        <Button
+          onClick={searchQuestion}
+          className="mx-[20px] bg-primary text-white"
+        >
+          Search
+        </Button>
+        <Button onClick={fetchQuestions} className="bg-accent text-white">
+          All
+        </Button>
+      </div>
+      <Table className=" border-spacing-y-[20px]">
         <TableHeader className="text-left rounded-lg ">
           <TableColumn className="table-column-admin europa rounded-tl-[15px]">
             QuestionId
