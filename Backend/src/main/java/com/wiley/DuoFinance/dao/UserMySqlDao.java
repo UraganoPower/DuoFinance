@@ -86,8 +86,10 @@ public class UserMySqlDao implements UserDao {
     @Override
     public void deleteUserById(int userId) {
 
-        String query = "delete from user where userId = ?";
+        final String queryDeleteGame = "delete from game where userId = ?";
+        jdbcTemplate.update(queryDeleteGame, userId);
 
-        jdbcTemplate.update(query, userId);
+        final String queryDeleteUser = "delete from user where userId = ?";
+        jdbcTemplate.update(queryDeleteUser, userId);
     }
 }

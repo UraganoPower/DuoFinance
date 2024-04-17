@@ -179,7 +179,13 @@
 }
 
 .sheet {
-  @apply absolute bottom-0 right-0 h-[100vh] w-[600px] bg-gradient-to-b from-primary to-primary;
+  @apply absolute bottom-0 right-0 h-[100vh] w-[600px];
+
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(51, 50, 50, 1) 100%
+  );
 
   /* overflow */
   @apply overflow-x-hidden;
@@ -193,8 +199,77 @@
 
 .wrapper-sheet {
   /* perimeters */
-  @apply p-[20px] h-full w-max;
+  @apply p-[20px] h-full w-[600px];
+
+  /* display */
+  @apply flex flex-col;
 
   /* border */
-  @apply border-l-[2px] border-solid border-white;
+  @apply border-l-[5px] border-solid border-primary;
+}
+
+.border-show-men {
+  @apply h-[421px] w-[464px] p-[3px] ml-[40px];
+
+  /* bg */
+  @apply bg-gradient-to-br from-secondary to-accent;
+
+  /* border */
+  @apply rounded-[10px];
+
+  /* display */
+  @apply flex justify-center items-center;
+}
+
+.bg-show-man {
+  @apply relative;
+
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgb(36, 35, 35) 100%
+  );
+
+  @apply h-[415px] w-[460px];
+
+  /* border */
+  @apply rounded-[8px];
+}
+
+.img-men {
+  left: -30px;
+  top: 6px;
+}
+
+.img-question-1 {
+  left: 50px;
+  top: 28px;
+}
+
+.img-question-2 {
+  left: -30px;
+  top: 40px;
+}
+
+.img-question-3 {
+  left: 2px;
+  top: 37px;
+}
+
+.modal::backdrop {
+  /* bg */
+
+  backdrop-filter: blur(3px);
+}
+
+.modal {
+  z-index: 10;
+  /* perimeter */
+  @apply w-[530px] h-fit px-[38px] py-[25px] top-[-20%];
+
+  /* border */
+  @apply border-[1px] border-solid border-white rounded-[10px];
+
+  /* bg */
+  @apply bg-text;
 }

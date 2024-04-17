@@ -1,8 +1,13 @@
 import PointerGame from "../svg/pointerGame";
 
-const Answer = ({ text, onClick, letterIndex }) => {
+const Answer = ({ text, onClick, letterIndex, onHover, onMouseLeave }) => {
   return (
-    <div className="answer" onClick={onClick}>
+    <div
+      className="answer"
+      onClick={onClick}
+      onMouseOver={onHover}
+      onMouseLeave={onMouseLeave}
+    >
       <h4 className="noto">
         {letterIndex}. {text}
       </h4>

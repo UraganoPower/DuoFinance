@@ -38,7 +38,7 @@ public class GameMySqlDao implements GameDao {
     public List<Game> getAllGameByUserId(int userId) {
 
         List<Game> games;
-        String query = "select * from game where userId = ? order by gameId asc";
+        String query = "select * from game where userId = ? order by gameId desc";
 
         games = jdbcTemplate.query(query, new GameMapper(), userId);
 
