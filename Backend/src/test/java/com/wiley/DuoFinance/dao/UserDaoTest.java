@@ -64,6 +64,7 @@ public class UserDaoTest {
         assertEquals(user.getUsername(), "test1", "Inserted user's username should match the original");
         assertEquals(user.getEmail(), "test1@email.com", "Inserted user's email should match the original");
         assertEquals(user.getPassword(), "password", "Inserted user's password should match the original");
+        jdbc.update("DELETE FROM user WHERE userId = ?", userId);
     }
     @Test
     @DisplayName("Test deleting a user by ID")
