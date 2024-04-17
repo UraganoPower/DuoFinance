@@ -78,3 +78,35 @@ li:hover {
   /* bg */
   @apply bg-gray-200;
 }
+
+.modal::backdrop {
+  /* bg */
+
+  backdrop-filter: blur(3px);
+}
+
+.modal {
+  z-index: 10;
+  /* perimeter */
+  @apply w-[530px] h-fit px-[38px] py-[25px] top-[-20%];
+
+  /* border */
+  @apply border-[1px] border-solid border-text rounded-[10px];
+
+  /* bg */
+  @apply bg-white;
+}
+
+.input-admin {
+  @apply border-2 border-gray-300 rounded-sm;
+
+  /* perimeters */
+  @apply px-[10px] py-[5px] mb-[10px];
+}
+
+.text-area-admin {
+  @apply border-2 border-gray-300 rounded-sm;
+
+  /* perimeters */
+  @apply px-[10px] py-[5px] h-[120px] mb-[10px];
+}
