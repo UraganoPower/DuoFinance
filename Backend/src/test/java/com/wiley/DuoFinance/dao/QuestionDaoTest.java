@@ -80,8 +80,16 @@ public class QuestionDaoTest {
         question.setChoiceC("choice C");
         question.setAnswer("choice B");
         Question addedQuestion = questionDao.addQuestion(question);
-        assertNotNull(addedQuestion.getQuestionId(), "Inserted question ID should not be null");
-        jdbc.update("DELETE FROM question WHERE questionId = ?", question.getQuestionId());
+
+        // check that addedQuestion is not null
+        assertNotNull(addedQuestion, "Added question should not be null");
+
+        // check other properties
+        assertEquals("test new question", addedQuestion.getQuestionText(), "Question text should match");
+        assertEquals("choice A", addedQuestion.getChoiceA(), "Choice A should match");
+        assertEquals("choice B", addedQuestion.getChoiceB(), "Choice B should match");
+        assertEquals("choice C", addedQuestion.getChoiceC(), "Choice C should match");
+        assertEquals("choice B", addedQuestion.getAnswer(), "Answer should match");
     }
 
     @Test
@@ -119,5 +127,22 @@ public class QuestionDaoTest {
         List<Question> questions = jdbc.query("SELECT * FROM question WHERE questionId = ?", new QuestionMapper(), addedQuestion.getQuestionId());
         assertTrue(questions.isEmpty(), "Question should be null after deletion");
     }
+
+    @Test
+    @DisplayName("Test searching question by keyword")
+    public void testSearchByKeyword() {
+        // from test question 1
+        String keyword = "# 1";
+        List<Question> questions = questionDao.searchByKeyword(keyword);
+        //Should return at least 1 result
+        assertFalse(questions.isEmpty(), "Should return questions containing the keyword");
+
+        // No question with this keyword "nonexistentword"
+        keyword = "nonexistentword";
+        questions = questionDao.searchByKeyword(keyword);
+        //Should return empty list
+        assertTrue(questions.isEmpty(), "Should not return any questions as the keyword does not exist in any question");
+    }
+
 
 }

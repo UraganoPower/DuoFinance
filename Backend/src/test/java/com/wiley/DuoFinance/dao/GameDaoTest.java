@@ -40,6 +40,7 @@ public class GameDaoTest {
 
     @BeforeEach
     public void setUp() {
+        //Adding a user
         User testUser = new User();
         testUser.setUsername("testuser");
         testUser.setEmail("testuser@gmail.com");
@@ -80,13 +81,23 @@ public class GameDaoTest {
     @Test
     @DisplayName("Test validating an answer")
     public void testIsValidateAnswer(){
+        //Passing a valid answer
         Answer answer = new Answer();
         answer.setQuestionId(testQuestion.getQuestionId());
-        answer.setAnswer(testQuestion.getAnswer());
+        answer.setAnswer("choice B");
 
         boolean result = gameDao.isValidateAnswer(answer);
 
         assertTrue(result, "Answer should be correct");
+
+        //Passing an invalid answer
+        Answer answer1 = new Answer();
+        answer1.setQuestionId(testQuestion.getQuestionId());
+        answer1.setAnswer("choice C");
+
+        boolean result1 = gameDao.isValidateAnswer(answer1);
+
+        assertFalse(result1, "Answer should not be correct");
     }
     @Test
     @DisplayName("Test adding a game")
@@ -105,6 +116,7 @@ public class GameDaoTest {
     @Test
     @DisplayName("Test getting all games by user ID")
     public void testGetAllGameByUserId() {
+        // userId = 2 has 2 games played
         List<Game> games = gameDao.getAllGameByUserId(2);
 
         assertNotNull(games, "Games list should not be null");

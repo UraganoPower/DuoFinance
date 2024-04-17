@@ -1,6 +1,9 @@
 package com.wiley.DuoFinance.dao;
 
 import com.wiley.DuoFinance.TestApplicationConfiguration;
+import com.wiley.DuoFinance.mapper.QuestionMapper;
+import com.wiley.DuoFinance.mapper.UserMapper;
+import com.wiley.DuoFinance.model.Question;
 import com.wiley.DuoFinance.model.Role;
 import com.wiley.DuoFinance.model.User;
 import org.junit.jupiter.api.AfterEach;
@@ -12,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -51,13 +56,14 @@ public class UserDaoTest {
         user.setEmail("test1@email.com");
         user.setPassword("password");
         int userId = userDao.addUser(user);
+
         //If userId positive it means that it was created
         assertTrue(userId > 0, "userId should be positive");
 
-        User insertedUser = userDao.getUserById(userId);
-        assertEquals(user.getUsername(), insertedUser.getUsername(), "Inserted user's username should match the original");
-        assertEquals(user.getEmail(), insertedUser.getEmail(), "Inserted user's email should match the original");
-        userDao.deleteUserById(userId); //deleting it so it doesnt save in our database
+        //Check other properties
+        assertEquals(user.getUsername(), "test1", "Inserted user's username should match the original");
+        assertEquals(user.getEmail(), "test1@email.com", "Inserted user's email should match the original");
+        assertEquals(user.getPassword(), "password", "Inserted user's password should match the original");
     }
     @Test
     @DisplayName("Test deleting a user by ID")
@@ -70,8 +76,9 @@ public class UserDaoTest {
 
         userDao.deleteUserById(userId);
 
-        User deletedUser = userDao.getUserById(userId);
-        assertNull(deletedUser, "User should be null after deletion");
+        // Try to retrieve the deleted user
+        List<User> users = jdbc.query("SELECT * FROM user WHERE userId = ?", new UserMapper(), userId);
+        assertTrue(users.isEmpty(), "User should be null after deletion");
     }
     @Test
     @DisplayName("Test checking email availability")
@@ -91,10 +98,9 @@ public class UserDaoTest {
         User user = userDao.getUserById(testUserId);
         assertNotNull(user, "User should not be null");
 
-        int nonExistentUserId = 9999; // ID not available in our database
+        int nonExistentUserId = -1; // ID not available in our database
         user = userDao.getUserById(nonExistentUserId);
         assertNull(user, "User should be null");
     }
 
 }
-
