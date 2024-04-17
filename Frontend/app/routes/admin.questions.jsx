@@ -24,6 +24,7 @@ const QuestionsAdmin = () => {
   const choiceBRef = useRef();
   const choiceCRef = useRef();
   const searhRef = useRef();
+  const [idToDelete, setIdToDelete] = useState();
 
   const openModal = (id, question, answer, choiceA, choiceB, choiceC) => {
     setIdState(id);
@@ -90,6 +91,7 @@ const QuestionsAdmin = () => {
       credentials: "include",
     })
       .then((res) => {
+        closeModalDelete();
         if (res.status !== StatusCodes.OK) {
           throw new Error("Cant delete questions for some reason");
         }
@@ -119,6 +121,16 @@ const QuestionsAdmin = () => {
       });
   };
 
+  const modalDelete = useRef();
+  const openModalDelete = (id) => {
+    setIdToDelete(id);
+    modalDelete.current.showModal();
+  };
+
+  const closeModalDelete = () => {
+    modalDelete.current.close();
+  };
+
   return (
     <div className="flex flex-col  w-full px-[50px] overflow-auto removeScrollBar">
       <dialog ref={modalRef} className="modal ">
@@ -146,6 +158,21 @@ const QuestionsAdmin = () => {
             Save
           </Button>
         </div>
+      </dialog>
+      <dialog ref={modalDelete} className="modal">
+        <p className="mb-[30px] europa">
+          Are you sure you want to delete question_Id : {idToDelete} ?
+        </p>
+        <p className="mb-[30px] text-red-600">This action cannot be undone.</p>
+        <Button onClick={closeModalDelete} className="bg-primary text-white">
+          Close
+        </Button>
+        <Button
+          onClick={() => deleteQuestion(idToDelete)}
+          className="ml-[20px] bg-red-500 text-white"
+        >
+          Delete
+        </Button>
       </dialog>
       <div className="flex mt-[20px]">
         <input ref={searhRef} className="input-admin" type="text"></input>
@@ -206,7 +233,7 @@ const QuestionsAdmin = () => {
               </TableCell>
               <TableCell className="table-cell-admin">
                 <div className="flex">
-                  <button onClick={() => deleteQuestion(question.questionId)}>
+                  <button onClick={() => openModalDelete(question.questionId)}>
                     <TrashSvg
                       className={"stroke-red-500 hover:stroke-red-600"}
                     ></TrashSvg>
