@@ -45,14 +45,17 @@ const Game = () => {
       credentials: "include",
     })
       .then((res) => {
-        console.log(" status", res.status);
         if (res.status !== StatusCodes.OK) {
           navigate("/login");
         }
         return res.json();
       })
       .then((data) => {
-        setUser(data);
+        if (data.roleId == 1) {
+          navigate("/login");
+        } else {
+          setUser(data);
+        }
       });
 
     fetchGames();
@@ -146,7 +149,6 @@ const Game = () => {
       method: "POST",
       credentials: "include",
     }).then((res) => {
-      console.log(res.status);
       if (res.status === StatusCodes.OK) {
         navigate("/login");
       }
@@ -158,7 +160,6 @@ const Game = () => {
       method: "DELETE",
       credentials: "include",
     }).then((res) => {
-      console.log(res.status);
       if (res.status === StatusCodes.OK) {
         navigate("/login");
       }
@@ -208,7 +209,6 @@ const Game = () => {
         username: renameRef.current.value,
       }),
     }).then((res) => {
-      console.log(res.status);
       if (res.status === StatusCodes.OK) {
         setUser({
           ...user,

@@ -26,7 +26,6 @@ const LogIn = () => {
             throw new Error("Cant fetch user for some reason");
           }
           res.json().then((data) => {
-            console.log(data);
             if (data.roleId == 2) {
               navigate("/game");
             } else {
@@ -60,9 +59,7 @@ const LogIn = () => {
           }
 
           res.json().then((data) => {
-            console.log(data);
             if (data.roleId == 2) {
-              console.log("cool");
               navigate("/game");
             } else {
               navigate("/admin");

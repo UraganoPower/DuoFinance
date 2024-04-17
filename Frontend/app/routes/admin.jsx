@@ -10,14 +10,18 @@ const Admin = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/login", {
+    fetch("http://localhost:8080/api/user", {
       method: "Get",
       credentials: "include",
     }).then((res) => {
-      console.log(res.status);
       if (res.status !== StatusCodes.OK) {
         navigate("/login");
       }
+      res.json().then((data) => {
+        if (data.roleId == 2) {
+          navigate("/login");
+        }
+      });
     });
   }, []);
 
@@ -26,7 +30,6 @@ const Admin = () => {
       method: "POST",
       credentials: "include",
     }).then((res) => {
-      console.log(res.status);
       if (res.status === StatusCodes.OK) {
         navigate("/login");
       }
