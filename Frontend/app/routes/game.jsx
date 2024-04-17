@@ -38,8 +38,15 @@ const Game = () => {
   const modal = useRef(null);
   const [gamesPlay, setGamePlay] = useState([]);
   const [average, setAverage] = useState(0);
+  const [megaloAudio, setMegaloAudio] = useState(null);
+  const [bipAudio, setBipAudio] = useState(null);
+  const [selectaudio, setSelectAudio] = useState(null);
 
   useEffect(() => {
+    setMegaloAudio(new Audio("/music/megalovania.mp3"));
+    setBipAudio(new Audio("/music/bip.mp3"));
+    setSelectAudio(new Audio("/music/select.mp3"));
+
     fetch("http://localhost:8080/api/user", {
       method: "Get",
       credentials: "include",
@@ -61,6 +68,26 @@ const Game = () => {
     fetchGames();
     fetchAverage();
   }, []);
+
+  const playBip = () => {
+    bipAudio.volume = 0.1;
+    bipAudio.play();
+  };
+
+  const stopBip = () => {
+    bipAudio.pause();
+    bipAudio.currentTime = 0;
+  };
+
+  const playMegalo = () => {
+    megaloAudio.volume = 0.1;
+    megaloAudio.play();
+  };
+
+  const playSelect = () => {
+    selectaudio.volume = 0.5;
+    selectaudio.play();
+  };
 
   const fetchQuestions = async () => {
     try {
@@ -122,6 +149,7 @@ const Game = () => {
   };
 
   const handleStartGame = async () => {
+    playMegalo();
     //load questions
     setQuestionCounter(questionCounter + 1);
     const data = await fetchQuestions();
@@ -290,6 +318,14 @@ const Game = () => {
                       letterIndex="A"
                       onClick={() => {
                         nextQuestion(currentQuestion.choiceA);
+                        playSelect();
+                      }}
+                      onHover={() => {
+                        playBip();
+                        console.log("bip");
+                      }}
+                      onMouseLeave={() => {
+                        stopBip();
                       }}
                     />
                     <Answer
@@ -297,6 +333,13 @@ const Game = () => {
                       letterIndex="B"
                       onClick={() => {
                         nextQuestion(currentQuestion.choiceB);
+                        playSelect();
+                      }}
+                      onHover={() => {
+                        playBip();
+                      }}
+                      onMouseLeave={() => {
+                        stopBip();
                       }}
                     />
                     <Answer
@@ -304,6 +347,13 @@ const Game = () => {
                       letterIndex="C"
                       onClick={() => {
                         nextQuestion(currentQuestion.choiceC);
+                        playSelect();
+                      }}
+                      onHover={() => {
+                        playBip();
+                      }}
+                      onMouseLeave={() => {
+                        stopBip();
                       }}
                     />
                   </div>
