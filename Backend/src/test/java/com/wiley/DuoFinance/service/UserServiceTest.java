@@ -80,11 +80,11 @@ public class UserServiceTest {
     public void testGetUserById() {
 
         assertDoesNotThrow(() -> {
-            User user = userService.getUserById(1);
+            User user = userService.getUserById(1); //userId =1 -> admin
             assertNotNull(user, "User should not be null");
         });
 
-        int invalidUserId = -1; // replace with an invalid user ID
+        int invalidUserId = -1; //userId not in our database
 
         assertThrows(CannotLoginException.class, () -> {
             userService.getUserById(invalidUserId);
