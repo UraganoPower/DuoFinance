@@ -9,7 +9,10 @@ import { useNavigate } from "@remix-run/react";
 import { StatusCodes } from "http-status-codes";
 import { Input as NextuiInput } from "@nextui-org/input";
 import { Tooltip } from "@nextui-org/tooltip";
+import { Slider } from "@nextui-org/slider";
 import XMark from "../svg/x-mark";
+import SpeakerOn from "../svg/sound";
+import SpeakerOff from "../svg/soudOff";
 
 export const links = () => [
   { rel: "stylesheet", href: gameStyle },
@@ -41,6 +44,7 @@ const Game = () => {
   const [megaloAudio, setMegaloAudio] = useState(null);
   const [bipAudio, setBipAudio] = useState(null);
   const [selectaudio, setSelectAudio] = useState(null);
+  const [volumeOn, setVolumeOn] = useState(true);
 
   useEffect(() => {
     setMegaloAudio(new Audio("/music/megalovania.mp3"));
@@ -80,13 +84,22 @@ const Game = () => {
   };
 
   const playMegalo = () => {
-    megaloAudio.volume = 0.1;
+    setVolume(50);
     megaloAudio.play();
   };
 
   const playSelect = () => {
     selectaudio.volume = 0.5;
     selectaudio.play();
+  };
+
+  const setVolume = (value) => {
+    if (value == 0) {
+      setVolumeOn(false);
+    } else {
+      setVolumeOn(true);
+    }
+    megaloAudio.volume = value / 1000;
   };
 
   const fetchQuestions = async () => {
@@ -394,6 +407,20 @@ const Game = () => {
               logout
             </button>
           </Tooltip>
+          <div className="flex items-center w-[100%] h-[10px] mt-[30px] ">
+            {volumeOn ? <SpeakerOn></SpeakerOn> : <SpeakerOff></SpeakerOff>}
+            <div className="ml-[20px] h-[5px] w-full rounded-full bg-white justify-center items-center ">
+              <Slider
+                size="md"
+                min={0}
+                max={100}
+                step={5}
+                defaultValue={50}
+                key="secondary"
+                onChange={(e) => setVolume(e)}
+              ></Slider>
+            </div>
+          </div>
 
           <NextuiInput
             ref={renameRef}
